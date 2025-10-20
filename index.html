@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dra. Luz Domínguez - Estética Dental y Odontología Integral</title>
+    <link rel="icon" href="images/favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #000000;
+            color: #E5E7EB;
+            background-image: radial-gradient(circle at top right, rgba(217, 180, 128, 0.1), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(217, 180, 128, 0.1), transparent 50%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+        .glass-effect {
+            background: rgba(26, 26, 26, 0.65);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .card-glow {
+             box-shadow: 0 0 45px rgba(217, 180, 128, 0.1);
+        }
+        .brand-text { color: #D9B480; }
+        html { scroll-behavior: smooth; }
+        .whatsapp-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            text-align: center;
+        }
+        .whatsapp-float {
+            width: 60px;
+            height: 60px;
+            transition: transform 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); }
+        .whatsapp-float img { width: 100%; height: auto; }
+        .whatsapp-text { color: white; font-size: 12px; font-weight: 600; margin-top: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.7); }
+        .action-button {
+            color: #111;
+            font-weight: 600;
+            padding: 0.85rem 2.25rem;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-size: 1rem;
+            letter-spacing: 0.05em;
+            background: linear-gradient(45deg, #D9B480, #F2E2C2);
+            box-shadow: 0 4px 15px rgba(217, 180, 128, 0.2);
+        }
+        .action-button:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 0 25px rgba(217, 180, 128, 0.4);
+        }
+        .reveal { opacity: 0; transition: opacity 1s ease-out, transform 1s ease-out; }
+        .reveal-up { transform: translateY(50px); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        
+        /* Slider for "Otros Servicios" */
+        .slider-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            cursor: grab;
+            user-select: none;
+        }
+        .slider-container.active {
+            cursor: grabbing;
+        }
+        .slider-container::-webkit-scrollbar { display: none; }
+        .slider-track {
+            display: flex;
+            width: calc(17rem * 20); /* (width + gap) * number of items * 2 */
+        }
+        .slider-item {
+            width: 16rem;
+            flex-shrink: 0;
+            margin-right: 1rem;
+        }
+        
+        /* Video Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+        }
+        .modal-content .aspect-w-16 {
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        }
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-black text-gray-200">
+
+    <div class="whatsapp-container">
+        <a href="https://wa.link/gqvl1t" class="whatsapp-float" target="_blank"> 
+            <img src="images/whatsapp-logo.png" alt="Contactar por WhatsApp">
+        </a>
+        <p class="whatsapp-text">¡Agenda tu Cita!</p>
+    </div>
+
+    <!-- Video Modal -->
+    <div id="video-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span id="modal-close-btn" class="modal-close">&times;</span>
+            <div class="aspect-w-16 relative">
+                <iframe id="video-iframe" class="w-full h-full absolute top-0 left-0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <header class="glass-effect shadow-lg sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+             <a href="#inicio">
+                <img src="images/logo.png" alt="Logo Dra. Luz Dominguez" class="h-12 md:h-16">
+            </a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#inicio" class="text-gray-300 hover:text-white transition duration-300">Inicio</a>
+                <a href="#nosotros" class="text-gray-300 hover:text-white transition duration-300">Sobre Mí</a>
+                <a href="#servicios" class="text-gray-300 hover:text-white transition duration-300">Servicios</a>
+                <a href="#testimonios" class="text-gray-300 hover:text-white transition duration-300">Testimonios</a>
+                <a href="#contacto" class="text-gray-300 hover:text-white transition duration-300">Contacto</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-white focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-black bg-opacity-95 z-40 flex flex-col items-center justify-center space-y-8">
+        <a href="#inicio" class="mobile-menu-link text-2xl text-gray-300 hover:text-white">Inicio</a>
+        <a href="#nosotros" class="mobile-menu-link text-2xl text-gray-300 hover:text-white">Sobre Mí</a>
+        <a href="#servicios" class="mobile-menu-link text-2xl text-gray-300 hover:text-white">Servicios</a>
+        <a href="#testimonios" class="mobile-menu-link text-2xl text-gray-300 hover:text-white">Testimonios</a>
+        <a href="#contacto" class="mobile-menu-link text-2xl text-gray-300 hover:text-white">Contacto</a>
+    </div>
+
+    <main>
+        <section id="inicio" class="py-24 md:py-40 relative overflow-hidden">
+             <div class="absolute inset-0 flex items-center justify-center z-0">
+                 <img src="images/logo.png" alt="" class="w-1/2 md:w-1/3 h-auto opacity-5 filter blur-xl">
+             </div>
+             <div class="container mx-auto px-6 text-center reveal reveal-up relative z-10">
+                <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight mb-4">
+                    Expertos en Alta Estética Dental <br>& <span class="brand-text">Salud Oral</span>
+                </h1>
+                <p class="text-lg text-gray-400 mb-8 max-w-3xl mx-auto">
+                    Funcionalidad, Estética y Estilo de Vida. Transformamos sonrisas en nuestra sede de Barranquilla.
+                </p>
+                <a href="https://wa.link/gqvl1t" target="_blank" class="action-button">Agendar Valoración</a>
+            </div>
+        </section>
+        
+        <section id="nosotros" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="glass-effect rounded-2xl p-8 md:p-12 reveal flex flex-col md:flex-row items-center gap-12 max-w-5xl mx-auto">
+                    <div class="md:w-1/3">
+                        <img src="images/doctora.jpg" alt="Dra. Luz Mary Domínguez" class="rounded-full shadow-2xl w-64 h-64 mx-auto object-cover border-4 border-gray-700">
+                    </div>
+                    <div class="md:w-2/3 text-center md:text-left">
+                        <h2 class="text-3xl font-bold mb-4 text-white">Dra. Luz Mary Domínguez</h2>
+                        <p class="text-gray-300 leading-relaxed text-lg">
+                            Con más de 15 años de trayectoria y más de 15,000 pacientes <span class="font-bold text-white">nacionales e internacionales</span> satisfechos, nuestro enfoque único combina seguridad clínica, longevidad en los resultados y garantías que respaldan tu inversión. En la Fábrica de Sonrisas de la <span class="brand-text font-semibold">Dra. Luz Mary Domínguez</span> eliges ir a la fija: resultados impecables y una atención cálida.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="servicios" class="py-20 bg-black bg-opacity-20">
+            <div class="container mx-auto px-6">
+                 <div class="text-center reveal reveal-up mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Nuestros Tratamientos</h2>
+                    <p class="text-md text-gray-400 mt-2">Soluciones personalizadas para una sonrisa radiante y saludable.</p>
+                </div>
+                
+                <div class="glass-effect card-glow rounded-2xl p-8 text-center max-w-4xl mx-auto mb-16 reveal reveal-up">
+                    <h3 class="text-2xl font-bold brand-text mb-4">🎁 Bono Exclusivo del Mes 🎁</h3>
+                    <p class="text-gray-300 text-lg mb-2">Agenda tu valoración para cualquier Diseño de Sonrisa y recibe una <span class="font-bold text-white">Limpieza Dental Ultrasónica GRATIS</span>.</p>
+                    <p class="text-sm text-gray-400">La valoración tiene un costo de $100.000 COP, que puedes reservar con solo $50.000 COP.</p>
+                </div>
+
+                <div class="text-center reveal reveal-up mb-12">
+                    <h3 class="text-2xl font-bold text-white">Diseños de Sonrisa</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                    <!-- Diseño en Resina -->
+                    <div class="glass-effect card-glow rounded-2xl p-8 text-center flex flex-col reveal reveal-up">
+                        <h3 class="text-xl font-bold brand-text mb-4">Diseño en Resina de Alta Estética</h3>
+                        <p class="text-gray-300 text-sm flex-grow">💎 Una transformación rápida y natural. Mejora color, forma y pequeños defectos. Durabilidad: 5-7 años.</p>
+                        <p class="font-bold my-4">Aprox: <span class="brand-text">$1.5M - $3M COP</span></p>
+                        <a href="https://wa.link/zkku75" target="_blank" class="action-button mt-auto text-sm">Agendar en Resina</a>
+                    </div>
+                     <!-- Diseño en Cerómero -->
+                    <div class="glass-effect card-glow rounded-2xl p-8 text-center flex flex-col reveal reveal-up" style="transition-delay: 200ms;">
+                        <h3 class="text-xl font-bold brand-text mb-4">Diseño en Cerómero</h3>
+                        <p class="text-gray-300 text-sm flex-grow">💎 Una sonrisa duradera y de alta estética. Mayor resistencia que las resinas. Durabilidad: 7-10 años.</p>
+                        <p class="font-bold my-4">Aprox: <span class="brand-text">$2.5M - $4.5M COP</span></p>
+                        <a href="https://wa.link/u7fmrk" target="_blank" class="action-button mt-auto text-sm">Agendar en Cerómero</a>
+                    </div>
+                     <!-- Diseño en Disilicato de Litio -->
+                    <div class="glass-effect card-glow rounded-2xl p-8 text-center flex flex-col reveal reveal-up" style="transition-delay: 400ms;">
+                        <h3 class="text-xl font-bold brand-text mb-4">Diseño en Disilicato de Litio</h3>
+                        <p class="text-gray-300 text-sm flex-grow">👑 Máxima estética, resistencia y duración, con un brillo similar al diente real. Durabilidad: hasta 15 años.</p>
+                        <p class="font-bold my-4">Aprox: <span class="brand-text">$4.5M - $8M COP</span></p>
+                        <a href="https://wa.link/vjduxp" target="_blank" class="action-button mt-auto text-sm">Agendar en Disilicato</a>
+                    </div>
+                </div>
+                
+                <div class="text-center reveal reveal-up mt-24">
+                    <h3 class="text-2xl font-bold text-white">Odontología Integral</h3>
+                </div>
+                <div class="slider-container mt-8">
+                    <div class="slider-track">
+                        <!-- Services will be injected here by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="testimonios" class="py-20">
+            <div class="container mx-auto px-6 text-center">
+                <div class="reveal reveal-up mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Algunos de Nuestros Pacientes Satisfechos</h2>
+                    <p class="text-md text-gray-400 mt-2">La confianza de nuestros pacientes es nuestro mayor orgullo.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Testimonio España -->
+                    <div class="video-card reveal reveal-up" data-video-id="cny9y9TyD9E">
+                        <div class="relative glass-effect card-glow rounded-2xl overflow-hidden cursor-pointer transform hover:-translate-y-2 transition-transform duration-300 aspect-w-16 aspect-h-9">
+                            <img src="https://i.ytimg.com/vi/cny9y9TyD9E/hqdefault.jpg" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-between p-4">
+                                <h3 class="font-semibold text-white text-lg">🇪🇸 España</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonio Cuba -->
+                    <div class="video-card reveal reveal-up" style="transition-delay: 200ms;" data-video-id="6FVzoxlgHD0">
+                        <div class="relative glass-effect card-glow rounded-2xl overflow-hidden cursor-pointer transform hover:-translate-y-2 transition-transform duration-300 aspect-w-16 aspect-h-9">
+                            <img src="https://i.ytimg.com/vi/6FVzoxlgHD0/hqdefault.jpg" class="w-full h-full object-cover">
+                             <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-between p-4">
+                                <h3 class="font-semibold text-white text-lg">🇨🇺 Cuba</h3>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Testimonio Colombia -->
+                     <div class="video-card reveal reveal-up" style="transition-delay: 400ms;" data-video-id="kgCpSrDPOOM">
+                        <div class="relative glass-effect card-glow rounded-2xl overflow-hidden cursor-pointer transform hover:-translate-y-2 transition-transform duration-300 aspect-w-16 aspect-h-9">
+                            <img src="https://i.ytimg.com/vi/kgCpSrDPOOM/hqdefault.jpg" class="w-full h-full object-cover">
+                             <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-between p-4">
+                                <h3 class="font-semibold text-white text-lg">🇨🇴 Colombia</h3>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Testimonio Estados Unidos -->
+                     <div class="video-card reveal reveal-up" style="transition-delay: 600ms;" data-video-id="y1Eh_eD2W8Q">
+                        <div class="relative glass-effect card-glow rounded-2xl overflow-hidden cursor-pointer transform hover:-translate-y-2 transition-transform duration-300 aspect-w-16 aspect-h-9">
+                            <img src="https://i.ytimg.com/vi/y1Eh_eD2W8Q/hqdefault.jpg" class="w-full h-full object-cover">
+                             <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-between p-4">
+                                <h3 class="font-semibold text-white text-lg">🇺🇸 Estados Unidos</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="py-20">
+            <div class="container mx-auto px-6 text-center reveal">
+                 <h2 class="text-3xl font-bold mb-4 text-white">Agenda tu Valoración</h2>
+                 <p class="text-gray-400 mb-8 max-w-2xl mx-auto">Visítanos en Barranquilla o contáctanos por WhatsApp para dar el primer paso hacia la sonrisa que mereces.</p>
+                 <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                    <a href="https://n9.cl/3ncus6/googleiniciarruta" target="_blank" class="action-button">Cómo llegar</a>
+                    <a href="https://wa.link/gqvl1t" target="_blank" class="action-button">Agendar Cita</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black text-gray-400 py-16 border-t border-gray-800">
+        <div class="container mx-auto px-6 text-center text-sm flex flex-col items-center reveal">
+             <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-8">
+                <a href="#inicio" class="hover:text-white">Inicio</a>
+                <a href="#servicios" class="hover:text-white">Servicios</a>
+                <a href="#nosotros" class="hover:text-white">Nosotros</a>
+                <a href="#testimonios" class="hover:text-white">Testimonios</a>
+                <a href="#contacto" class="hover:text-white">Contacto</a>
+            </div>
+             <div class="mb-6 flex justify-center gap-6 items-center">
+                 <a href="https://www.instagram.com/draluzmarydominguez_/" target="_blank" class="transition-transform duration-300 hover:scale-110"><img src="images/instagram.png" alt="Instagram Dra. Luz Dominguez" class="w-10 h-10"></a>
+                 <a href="https://www.facebook.com/draluzmarydominguez/" target="_blank" class="transition-transform duration-300 hover:scale-110">
+                    <img src="images/logo-facebook.png" alt="Facebook Dra. Luz Dominguez" class="w-10 h-10 rounded-lg">
+                 </a>
+            </div>
+            <p class="mb-2"><strong>Ubicación:</strong> Edificio la fábrica de sonrisas, Calle 48 #26-94, Barranquilla, Colombia</p>
+            <p class="mb-4"><strong>Email:</strong> <a href="mailto:contacto@draluzdominguez.com" class="hover:text-white">contacto@draluzdominguez.com</a></p>
+            <p>&copy; 2025 Dra. Luz Domínguez. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Services data
+            const services = [
+                { name: "Implantes Dentales", link: "https://wa.link/1dcqtd" }, { name: "Rehabilitación Oral", link: "https://wa.link/zi7vnz" },
+                { name: "Limpieza Ultrasónica", link: "https://wa.link/fob85p" }, { name: "Blanqueamiento", link: "https://wa.link/clo0u5" },
+                { name: "Prótesis Dentales", link: "https://wa.link/o08824" }, { name: "Ortodoncia", link: "https://wa.link/zk1teq" },
+                { name: "Extracción de Cordales", link: "https://wa.link/ej4p9k" }, { name: "Coronas Sin Metal", link: "https://wa.link/e2ghs1" },
+                { name: "Remoción de Caries", link: "https://wa.link/7h0278" }, { name: "Endodoncia", link: "https://wa.link/ulerkr" }
+            ];
+
+            // Interactive Services Slider
+            const sliderContainer = document.querySelector('.slider-container');
+            const sliderTrack = document.querySelector('.slider-track'); 
+            
+            if (sliderContainer && sliderTrack) {
+                // Populate slider
+                [...services, ...services].forEach(service => {
+                    sliderTrack.innerHTML += `
+                        <div class="slider-item glass-effect card-glow p-6 rounded-2xl text-center">
+                            <h3 class="text-lg font-bold brand-text">${service.name}</h3>
+                            <a href="${service.link}" target="_blank" class="text-sm mt-2 text-gray-300 hover:text-white">Saber más &rarr;</a>
+                        </div>`;
+                });
+
+                // Slider logic
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+                let velocity = 0;
+                let momentumID;
+                let autoScrollID;
+
+                const startAutoScroll = () => {
+                    cancelAnimationFrame(autoScrollID);
+                    const scroll = () => {
+                        if (sliderContainer.scrollLeft >= sliderTrack.scrollWidth / 2) {
+                            sliderContainer.scrollLeft = 0;
+                        } else {
+                            sliderContainer.scrollLeft += 1; // Increased scroll speed
+                        }
+                        autoScrollID = requestAnimationFrame(scroll);
+                    };
+                    autoScrollID = requestAnimationFrame(scroll);
+                };
+
+                const handleDown = (e) => {
+                    isDown = true;
+                    sliderContainer.classList.add('active');
+                    startX = (e.pageX || e.touches[0].pageX) - sliderContainer.offsetLeft;
+                    scrollLeft = sliderContainer.scrollLeft;
+                    cancelAnimationFrame(momentumID);
+                    cancelAnimationFrame(autoScrollID);
+                    velocity = 0;
+                };
+
+                const handleUp = () => {
+                    if (!isDown) return;
+                    isDown = false;
+                    sliderContainer.classList.remove('active');
+                    beginMomentum();
+                };
+                
+                const handleMove = (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = (e.pageX || e.touches[0].pageX) - sliderContainer.offsetLeft;
+                    const walk = (x - startX);
+                    const prevScrollLeft = sliderContainer.scrollLeft;
+                    sliderContainer.scrollLeft = scrollLeft - walk;
+                    velocity = sliderContainer.scrollLeft - prevScrollLeft;
+                };
+
+                const beginMomentum = () => {
+                    cancelAnimationFrame(momentumID);
+                    const momentumLoop = () => {
+                        sliderContainer.scrollLeft += velocity;
+                        velocity *= 0.95; // Friction
+                        if (Math.abs(velocity) > 0.5) {
+                            momentumID = requestAnimationFrame(momentumLoop);
+                        } else {
+                            setTimeout(startAutoScroll, 3000); // Restart auto-scroll after a delay
+                        }
+                    };
+                    momentumID = requestAnimationFrame(momentumLoop);
+                };
+
+                sliderContainer.addEventListener('mousedown', handleDown);
+                sliderContainer.addEventListener('mouseleave', handleUp);
+                sliderContainer.addEventListener('mouseup', handleUp);
+                sliderContainer.addEventListener('mousemove', handleMove);
+                
+                sliderContainer.addEventListener('touchstart', handleDown, { passive: false });
+                sliderContainer.addEventListener('touchend', handleUp);
+                sliderContainer.addEventListener('touchmove', handleMove, { passive: false });
+
+                startAutoScroll();
+            }
+
+            // Video Modal
+            const videoModal = document.getElementById('video-modal');
+            const videoIframe = document.getElementById('video-iframe');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            document.querySelectorAll('.video-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const videoId = card.dataset.videoId;
+                    videoIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                    videoModal.classList.add('active');
+                });
+            });
+            const closeModal = () => {
+                videoIframe.src = '';
+                videoModal.classList.remove('active');
+            };
+            modalCloseBtn.addEventListener('click', closeModal);
+            videoModal.addEventListener('click', (e) => {
+                if(e.target === videoModal) closeModal();
+            });
+
+            // Scroll Reveal Animation
+            const revealElements = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1 });
+            revealElements.forEach(el => observer.observe(el));
+
+            // Mobile Menu Toggle
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            document.querySelectorAll('.mobile-menu-link, #menu-btn').forEach(el => {
+                el.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            });
+        });
+    </script>
+</body>
+</html>
+
