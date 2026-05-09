@@ -3,474 +3,585 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dra. Luz Domínguez - Estética Dental y Odontología Integral</title>
-    <link rel="icon" href="images/favicon.jpg">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>GreenTrade Pro - Inversiones en Criptomonedas | Colombia</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #000000;
-            color: #E5E7EB;
-            background-image: radial-gradient(circle at top right, rgba(217, 180, 128, 0.1), transparent 40%),
-                              radial-gradient(circle at bottom left, rgba(217, 180, 128, 0.1), transparent 50%);
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, #001a00 0%, #002d00 50%, #001a00 100%);
             background-attachment: fixed;
+            color: #00ff00;
+            min-height: 100vh;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
             overflow-x: hidden;
         }
-        .glass-effect {
-            background: rgba(26, 26, 26, 0.65);
-            -webkit-backdrop-filter: blur(15px);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .card-glow {
-             box-shadow: 0 0 45px rgba(217, 180, 128,  0.1);
-        }
-        .brand-text { color: #D9B480; }
-        html { scroll-behavior: smooth; }
-        .whatsapp-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 100;
-            text-align: center;
-        }
-        .whatsapp-float {
-            width: 60px;
-            height: 60px;
-            transition: transform 0.3s ease;
-            display: block;
-            margin: 0 auto;
-        }
-        .whatsapp-float:hover { transform: scale(1.1); }
-        .whatsapp-float img { width: 100%; height: auto; }
-        .whatsapp-text { color: white; font-size: 12px; font-weight: 600; margin-top: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.7); }
-        .action-button {
-            color: #111;
-            font-weight: 600;
-            padding: 0.85rem 2.25rem;
-            border-radius: 9999px;
-            transition: all 0.3s ease;
-            display: inline-block;
-            font-size: 1rem;
-            letter-spacing: 0.05em;
-            background: linear-gradient(45deg, #D9B480, #F2E2C2);
-            box-shadow: 0 4px 15px rgba(217, 180, 128, 0.2);
-        }
-        .action-button:hover {
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 0 25px rgba(217, 180, 128, 0.4);
-        }
-        .reveal { opacity: 0; transition: opacity 1s ease-out, transform 1s ease-out; }
-        .reveal-up { transform: translateY(50px); }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
         
-        /* Slider for "Otros Servicios" */
-        .slider-container {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            cursor: grab;
-            user-select: none;
-        }
-        .slider-container.active {
-            cursor: grabbing;
-        }
-        .slider-container::-webkit-scrollbar { display: none; }
-        .slider-track {
-            display: flex;
-            width: calc(17rem * 20); /* (width + gap) * number of items * 2 */
-        }
-        .slider-item {
-            width: 16rem;
-            flex-shrink: 0;
-            margin-right: 1rem;
+        .pixel-font {
+            font-family: 'Press Start 2P', cursive;
+            letter-spacing: 2px;
         }
         
-        /* Video Modal */
-        .modal-overlay {
+        .neon-green {
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00, 0 0 20px #00cc00, 0 0 30px rgba(0, 255, 0, 0.5);
+        }
+        
+        .neon-cyan {
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00cccc;
+        }
+        
+        .scanlines {
+            background-image: 
+                linear-gradient(0deg, transparent 24%, rgba(0, 255, 0, 0.05) 25%, rgba(0, 255, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, 0.05) 75%, rgba(0, 255, 0, 0.05) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(0, 255, 0, 0.05) 25%, rgba(0, 255, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, 0.05) 75%, rgba(0, 255, 0, 0.05) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+            pointer-events: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 1;
         }
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .modal-content {
+        
+        .content-wrapper {
             position: relative;
-            width: 90%;
-            max-width: 800px;
+            z-index: 2;
         }
-        .modal-content .aspect-w-16 {
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        
+        .panel {
+            background: rgba(0, 20, 0, 0.8);
+            border: 3px solid #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.6), inset 0 0 20px rgba(0, 255, 0, 0.1);
+            position: relative;
         }
-        .modal-close {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            font-size: 2rem;
-            color: white;
+        
+        .nav-header {
+            background: rgba(0, 40, 0, 0.9);
+            border-bottom: 3px solid #00ff00;
+            padding: 20px 40px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-title {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            display: inline-block;
+        }
+        
+        .market-ticker {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .ticker-item {
+            background: rgba(0, 30, 0, 0.9);
+            border: 2px solid #00cc00;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+        }
+        
+        .ticker-label {
+            font-size: 12px;
+            color: #00cccc;
+            text-shadow: 0 0 5px #00cccc;
+            margin-bottom: 5px;
+        }
+        
+        .ticker-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            font-family: 'Press Start 2P', cursive;
+            margin: 10px 0;
+        }
+        
+        .ticker-change {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .change-up {
+            color: #00ff00;
+        }
+        
+        .change-down {
+            color: #ff0000;
+        }
+        
+        .article-card {
+            background: rgba(0, 25, 0, 0.85);
+            border: 2px solid #00dd00;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.6);
+        }
+        
+        .article-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00ff00;
+            margin-bottom: 10px;
+        }
+        
+        .article-date {
+            font-size: 11px;
+            color: #00bbbb;
+            text-shadow: 0 0 5px #00bbbb;
+            margin-bottom: 10px;
+        }
+        
+        .article-content {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #ccffcc;
+        }
+        
+        .cta-button {
+            background: linear-gradient(45deg, #00ff00, #00cc00);
+            border: 2px solid #00ff00;
+            color: #000;
+            padding: 12px 30px;
+            font-weight: bold;
             cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+            transition: all 0.3s;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        
+        .cta-button:hover {
+            box-shadow: 0 0 40px rgba(0, 255, 0, 1);
+            transform: scale(1.05);
+        }
+        
+        .review-card {
+            background: rgba(0, 30, 0, 0.8);
+            border: 2px solid #00bbff;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 0 20px rgba(0, 187, 255, 0.3);
+        }
+        
+        .review-author {
+            font-weight: bold;
+            color: #00ffff;
+            text-shadow: 0 0 5px #00ffff;
+        }
+        
+        .review-rating {
+            color: #ffff00;
+            text-shadow: 0 0 5px #ffff00;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .review-text {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #aaffaa;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-box {
+            background: rgba(0, 40, 0, 0.9);
+            border: 3px solid #00ff00;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.5);
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #00cccc;
+            text-shadow: 0 0 5px #00cccc;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #00ff00;
+            text-shadow: 0 0 15px #00ff00;
+            font-family: 'Press Start 2P', cursive;
+        }
+        
+        .footer {
+            background: rgba(0, 20, 0, 0.9);
+            border-top: 3px solid #00ff00;
+            padding: 30px 40px;
+            margin-top: 50px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
+            text-align: center;
+            font-size: 12px;
+            color: #00dd00;
+        }
+        
+        .section {
+            padding: 40px;
+            margin: 20px;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        nav a {
+            color: #00ff00;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        nav a:hover {
+            text-shadow: 0 0 15px #00ff00;
+            color: #00ffff;
+        }
+        
+        @media (max-width: 768px) {
+            .section {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .header-title {
+                font-size: 16px;
+            }
+            
+            nav a {
+                margin: 0 10px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
-<body class="bg-black text-gray-200">
-
-    <div class="whatsapp-container">
-        <a href="https://wa.link/gqvl1t" class="whatsapp-float" target="_blank"> 
-            <img src="images/whatsapp-logo.png" alt="Contactar por WhatsApp">
-        </a>
-        <p class="whatsapp-text">¡Agenda tu Cita!</p>
-    </div>
-
-    <!-- Video Modal -->
-    <div id="video-modal" class="modal-overlay">
-        <div class="modal-content">
-            <span id="modal-close-btn" class="modal-close">&times;</span>
-            <div class="aspect-w-16 relative">
-                <iframe id="video-iframe" class="w-full h-full absolute top-0 left-0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-            </div>
+<body>
+    <div class="scanlines"></div>
+    
+    <div class="content-wrapper">
+        <!-- Header -->
+        <div class="nav-header">
+            <nav>
+                <div class="header-title neon-green">▶ GREENTRADE</div>
+                <div style="flex: 1;"></div>
+                <a href="#mercado">MERCADO</a>
+                <a href="#articulos">ARTÍCULOS</a>
+                <a href="#reseñas">RESEÑAS</a>
+                <a href="#contacto">CONTACTO</a>
+            </nav>
         </div>
-    </div>
 
-    <header class="glass-effect shadow-lg sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-             <a href="#inicio">
-                <img src="images/logo.png" alt="Logo Dra. Luz Dominguez" class="h-12 md:h-16">
-            </a>
-            <div class="hidden md:flex space-x-8 text-sm font-medium">
-                <a href="#inicio" class="text-gray-300 hover:text-white transition duration-300">Inicio</a>
-                <a href="#nosotros" class="text-gray-300 hover:text-white transition duration-300">Sobre Mí</a>
-                <a href="#servicios" class="text-gray-300 hover:text-white transition duration-300">Servicios</a>
-                <a href="#testimonios" class="text-gray-300 hover:text-white transition duration-300">Testimonios</a>
-                <a href="#contacto" class="text-gray-300 hover:text-white transition duration-300">Contacto</a>
-            </div>
-            <div class="md:hidden">
-                <button id="menu-btn" class="text-white focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
-            </div>
-        </nav>
-    </header>
-
-    <div id="mobile-menu" class="hidden fixed inset-0 bg-black bg-opacity-95 z-40 flex flex-col items-center justify-center space-y-8">
-        <a href="#inicio" class="mobile-menu-link text-2xl text-gray-300 hover:text-white">Inicio</a>
-        <a href="#nosotros" class="mobile-menu-link text-2xl text-gray-300 hover:text-white">Sobre Mí</a>
-        <a href="#servicios" class="mobile-menu-link text-2xl text-gray-300 hover:text-white">Servicios</a>
-        <a href="#testimonios" class="mobile-menu-link text-2xl text-gray-300 hover:text-white">Testimonios</a>
-        <a href="#contacto" class="mobile-menu-link text-2xl text-gray-300 hover:text-white">Contacto</a>
-    </div>
-
-    <main>
-        <section id="inicio" class="py-24 md:py-40 relative overflow-hidden">
-             <div class="absolute inset-0 flex items-center justify-center z-0">
-                 <img src="images/logo.png" alt="" class="w-1/2 md:w-1/3 h-auto opacity-5 filter blur-xl">
-             </div>
-             <div class="container mx-auto px-6 text-center reveal reveal-up relative z-10">
-                <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight mb-4">
-                    Expertos en Alta Estética Dental <br>& <span class="brand-text">Salud Oral</span>
-                </h1>
-                <p class="text-lg text-gray-400 mb-8 max-w-3xl mx-auto">
-                    Funcionalidad, Estética y Estilo de Vida. Transformamos sonrisas en nuestra sede de Barranquilla.
+        <!-- Hero Section -->
+        <div class="section panel">
+            <div style="text-align: center; padding: 40px 20px;">
+                <h1 class="pixel-font neon-green" style="font-size: 32px; margin-bottom: 20px;">BIENVENIDO A GREENTRADE</h1>
+                <h2 class="neon-cyan" style="font-size: 24px; margin-bottom: 15px;">Inversiones en Criptomonedas</h2>
+                <p style="font-size: 16px; color: #aaffaa; margin-bottom: 30px; line-height: 1.8;">
+                    Plataforma segura, regulada y confiable para invertir en Colombia.<br>
+                    <strong class="neon-green">Rentabilidad Garantizada del 10% Semanal</strong>
                 </p>
-                <a href="https://wa.link/gqvl1t" target="_blank" class="action-button">Agendar Valoración</a>
+                <button class="cta-button">➤ INVERTIR AHORA</button>
             </div>
-        </section>
-        
-        <section id="nosotros" class="py-20">
-            <div class="container mx-auto px-6">
-                <div class="glass-effect rounded-2xl p-8 md:p-12 reveal flex flex-col md:flex-row items-center gap-12 max-w-5xl mx-auto">
-                    <div class="md:w-1/3">
-                        <img src="images/doctora.jpg" alt="Dra. Luz Mary Domínguez" class="rounded-full shadow-2xl w-64 h-64 mx-auto object-cover border-4 border-gray-700">
-                    </div>
-                    <div class="md:w-2/3 text-center md:text-left">
-                        <h2 class="text-3xl font-bold mb-4 text-white">Dra. Luz Mary Domínguez</h2>
-                        <p class="text-gray-300 leading-relaxed text-lg">
-                            Con más de 15 años de trayectoria y más de 15,000 pacientes <span class="font-bold text-white">nacionales e internacionales</span> satisfechos, nuestro enfoque único combina seguridad clínica, longevidad en los resultados y garantías que respaldan tu inversión. En la Fábrica de Sonrisas de la <span class="brand-text font-semibold">Dra. Luz Mary Domínguez</span> eliges ir a la fija: resultados impecables y una atención cálida.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="servicios" class="py-20 bg-black bg-opacity-20">
-            <div class="container mx-auto px-6">
-                 <div class="text-center reveal reveal-up mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white">Nuestros Tratamientos</h2>
-                    <p class="text-md text-gray-400 mt-2">Soluciones personalizadas para una sonrisa radiante y saludable.</p>
-                </div>
-                
-                <div class="glass-effect card-glow rounded-2xl p-8 text-center max-w-4xl mx-auto mb-16 reveal reveal-up">
-                    <h3 class="text-2xl font-bold brand-text mb-4">🎁 Bono Exclusivo del Mes 🎁</h3>
-                    <p class="text-gray-300 text-lg mb-2">Agenda tu valoración para cualquier Diseño de Sonrisa y recibe una <span class="font-bold text-white">Limpieza Dental Ultrasónica GRATIS</span>.</p>
-                    <p class="text-sm text-gray-400">La valoración tiene un costo de $100.000 COP, que puedes reservar con solo $50.000 COP.</p>
-                </div>
-
-                <div class="text-center reveal reveal-up mb-12">
-                    <h3 class="text-2xl font-bold text-white">Diseños de Sonrisa</h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-                    <!-- Diseño en Resina -->
-                    <div class="glass-effect card-glow rounded-2xl p-8 text-center flex flex-col reveal reveal-up">
-                        <h3 class="text-xl font-bold brand-text mb-4">Diseño en Resina de Alta Estética</h3>
-                        <p class="text-gray-300 text-sm flex-grow">💎 Una transformación rápida y natural. Mejora color, forma y pequeños defectos. Durabilidad: 5-7 años.</p>
-                        <p class="font-bold my-4">Aprox: <span class="brand-text">$1.5M - $3M COP</span></p>
-                        <a href="https://wa.link/zkku75" target="_blank" class="action-button mt-auto text-sm">Agendar en Resina</a>
-                    </div>
-                     <!-- Diseño en Cerómero -->
-                    <div class="glass-effect card-glow rounded-2xl p-8 text-center flex flex-col reveal reveal-up" style="transition-delay: 200ms;">
-                        <h3 class="text-xl font-bold brand-text mb-4">Diseño en Cerómero</h3>
-                        <p class="text-gray-300 text-sm flex-grow">💎 Una sonrisa duradera y de alta estética. Mayor resistencia que las resinas. Durabilidad: 7-10 años.</p>
-                        <p class="font-bold my-4">Aprox: <span class="brand-text">$2.5M - $4.5M COP</span></p>
-                        <a href="https://wa.link/u7fmrk" target="_blank" class="action-button mt-auto text-sm">Agendar en Cerómero</a>
-                    </div>
-                     <!-- Diseño en Disilicato de Litio -->
-                    <div class="glass-effect card-glow rounded-2xl p-8 text-center flex flex-col reveal reveal-up" style="transition-delay: 400ms;">
-                        <h3 class="text-xl font-bold brand-text mb-4">Diseño en Disilicato de Litio</h3>
-                        <p class="text-gray-300 text-sm flex-grow">👑 Máxima estética, resistencia y duración, con un brillo similar al diente real. Durabilidad: hasta 15 años.</p>
-                        <p class="font-bold my-4">Aprox: <span class="brand-text">$4.5M - $8M COP</span></p>
-                        <a href="https://wa.link/vjduxp" target="_blank" class="action-button mt-auto text-sm">Agendar en Disilicato</a>
-                    </div>
-                </div>
-                
-                <div class="text-center reveal reveal-up mt-24">
-                    <h3 class="text-2xl font-bold text-white">Odontología Integral</h3>
-                </div>
-                <div class="slider-container mt-8">
-                    <div class="slider-track">
-                        <!-- Services will be injected here by JS -->
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="testimonios" class="py-20">
-            <div class="container mx-auto px-6 text-center">
-                <div class="reveal reveal-up mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white">Algunos de Nuestros Pacientes Satisfechos</h2>
-                    <p class="text-md text-gray-400 mt-2">La confianza de nuestros pacientes es nuestro mayor orgullo.</p>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Testimonio España -->
-                    <div class="video-card reveal reveal-up" data-video-id="cny9y9TyD9E">
-                        <div class="relative glass-effect card-glow rounded-2xl overflow-hidden cursor-pointer transform hover:-translate-y-2 transition-transform duration-300 aspect-w-16 aspect-h-9">
-                            <img src="https://i.ytimg.com/vi/cny9y9TyD9E/hqdefault.jpg" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-between p-4">
-                                <h3 class="font-semibold text-white text-lg">🇪🇸 España</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Testimonio Cuba -->
-                    <div class="video-card reveal reveal-up" style="transition-delay: 200ms;" data-video-id="6FVzoxlgHD0">
-                        <div class="relative glass-effect card-glow rounded-2xl overflow-hidden cursor-pointer transform hover:-translate-y-2 transition-transform duration-300 aspect-w-16 aspect-h-9">
-                            <img src="https://i.ytimg.com/vi/6FVzoxlgHD0/hqdefault.jpg" class="w-full h-full object-cover">
-                             <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-between p-4">
-                                <h3 class="font-semibold text-white text-lg">🇨🇺 Cuba</h3>
-                            </div>
-                        </div>
-                    </div>
-                     <!-- Testimonio Colombia -->
-                     <div class="video-card reveal reveal-up" style="transition-delay: 400ms;" data-video-id="kgCpSrDPOOM">
-                        <div class="relative glass-effect card-glow rounded-2xl overflow-hidden cursor-pointer transform hover:-translate-y-2 transition-transform duration-300 aspect-w-16 aspect-h-9">
-                            <img src="https://i.ytimg.com/vi/kgCpSrDPOOM/hqdefault.jpg" class="w-full h-full object-cover">
-                             <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-between p-4">
-                                <h3 class="font-semibold text-white text-lg">🇨🇴 Colombia</h3>
-                            </div>
-                        </div>
-                    </div>
-                     <!-- Testimonio Estados Unidos -->
-                     <div class="video-card reveal reveal-up" style="transition-delay: 600ms;" data-video-id="y1Eh_eD2W8Q">
-                        <div class="relative glass-effect card-glow rounded-2xl overflow-hidden cursor-pointer transform hover:-translate-y-2 transition-transform duration-300 aspect-w-16 aspect-h-9">
-                            <img src="https://i.ytimg.com/vi/y1Eh_eD2W8Q/hqdefault.jpg" class="w-full h-full object-cover">
-                             <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-between p-4">
-                                <h3 class="font-semibold text-white text-lg">🇺🇸 Estados Unidos</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contacto" class="py-20">
-            <div class="container mx-auto px-6 text-center reveal">
-                 <h2 class="text-3xl font-bold mb-4 text-white">Agenda tu Valoración</h2>
-                 <p class="text-gray-400 mb-8 max-w-2xl mx-auto">Visítanos en Barranquilla o contáctanos por WhatsApp para dar el primer paso hacia la sonrisa que mereces.</p>
-                 <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
-                    <a href="https://n9.cl/3ncus6/googleiniciarruta" target="_blank" class="action-button">Cómo llegar</a>
-                    <a href="https://wa.link/gqvl1t" target="_blank" class="action-button">Agendar Cita</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="bg-black text-gray-400 py-16 border-t border-gray-800">
-        <div class="container mx-auto px-6 text-center text-sm flex flex-col items-center reveal">
-             <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-8">
-                <a href="#inicio" class="hover:text-white">Inicio</a>
-                <a href="#servicios" class="hover:text-white">Servicios</a>
-                <a href="#nosotros" class="hover:text-white">Nosotros</a>
-                <a href="#testimonios" class="hover:text-white">Testimonios</a>
-                <a href="#contacto" class="hover:text-white">Contacto</a>
-            </div>
-             <div class="mb-6 flex justify-center gap-6 items-center">
-                 <a href="https://www.instagram.com/draluzmarydominguez_/" target="_blank" class="transition-transform duration-300 hover:scale-110"><img src="images/instagram.png" alt="Instagram Dra. Luz Dominguez" class="w-10 h-10"></a>
-                 <a href="https://www.facebook.com/draluzmarydominguez/" target="_blank" class="transition-transform duration-300 hover:scale-110">
-                    <img src="images/logo-facebook.png" alt="Facebook Dra. Luz Dominguez" class="w-10 h-10 rounded-lg">
-                 </a>
-            </div>
-            <p class="mb-2"><strong>Ubicación:</strong> Edificio la fábrica de sonrisas, Calle 48 #26-94, Barranquilla, Colombia</p>
-            <p class="mb-4"><strong>Email:</strong> <a href="mailto:contacto@draluzdominguez.com" class="hover:text-white">contacto@draluzdominguez.com</a></p>
-            <p>&copy; 2025 Dra. Luz Domínguez. Todos los derechos reservados.</p>
         </div>
-    </footer>
+
+        <!-- Metrics Section -->
+        <div class="stats-grid" style="padding: 0 40px;">
+            <div class="stat-box">
+                <div class="stat-label">Inversión Mínima</div>
+                <div class="stat-value">$100K</div>
+                <div style="font-size: 12px; color: #00dd00; margin-top: 10px;">COP</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Clientes Activos</div>
+                <div class="stat-value">12,847</div>
+                <div style="font-size: 12px; color: #00dd00; margin-top: 10px;">Colombia</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Capital Gestionado</div>
+                <div class="stat-value">$2.3B</div>
+                <div style="font-size: 12px; color: #00dd00; margin-top: 10px;">USD</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Rentabilidad Semanal</div>
+                <div class="stat-value">10%</div>
+                <div style="font-size: 12px; color: #00ff00; margin-top: 10px;">GARANTIZADO ✓</div>
+            </div>
+        </div>
+
+        <!-- Live Market Data -->
+        <div class="section panel" id="mercado">
+            <h2 class="pixel-font neon-green" style="font-size: 20px; margin-bottom: 30px;">📊 MERCADO EN TIEMPO REAL</h2>
+            
+            <h3 class="neon-cyan" style="font-size: 16px; margin: 20px 0;">CRIPTOMONEDAS</h3>
+            <div class="market-ticker">
+                <div class="ticker-item">
+                    <div class="ticker-label">▶ BITCOIN</div>
+                    <div class="ticker-price" id="btc-price">$43,500</div>
+                    <div class="ticker-change">
+                        <span class="change-up" id="btc-change">▲ +2.45%</span>
+                    </div>
+                </div>
+                <div class="ticker-item">
+                    <div class="ticker-label">▶ ETHEREUM</div>
+                    <div class="ticker-price" id="eth-price">$2,450</div>
+                    <div class="ticker-change">
+                        <span class="change-up" id="eth-change">▲ +1.89%</span>
+                    </div>
+                </div>
+                <div class="ticker-item">
+                    <div class="ticker-label">▶ RIPPLE (XRP)</div>
+                    <div class="ticker-price" id="xrp-price">$2.15</div>
+                    <div class="ticker-change">
+                        <span class="change-down" id="xrp-change">▼ -0.52%</span>
+                    </div>
+                </div>
+                <div class="ticker-item">
+                    <div class="ticker-label">▶ LITECOIN</div>
+                    <div class="ticker-price" id="ltc-price">$195.30</div>
+                    <div class="ticker-change">
+                        <span class="change-up" id="ltc-change">▲ +3.15%</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="neon-cyan" style="font-size: 16px; margin: 20px 0;">DIVISAS FOREX</h3>
+            <div class="market-ticker">
+                <div class="ticker-item">
+                    <div class="ticker-label">USD / COP</div>
+                    <div class="ticker-price" id="usd-cop">$3,950</div>
+                    <div class="ticker-change">
+                        <span class="change-down" id="usd-cop-change">▼ -0.23%</span>
+                    </div>
+                </div>
+                <div class="ticker-item">
+                    <div class="ticker-label">EUR / USD</div>
+                    <div class="ticker-price" id="eur-usd">1.0875</div>
+                    <div class="ticker-change">
+                        <span class="change-up" id="eur-usd-change">▲ +0.12%</span>
+                    </div>
+                </div>
+                <div class="ticker-item">
+                    <div class="ticker-label">GBP / USD</div>
+                    <div class="ticker-price" id="gbp-usd">1.2650</div>
+                    <div class="ticker-change">
+                        <span class="change-up" id="gbp-usd-change">▲ +0.45%</span>
+                    </div>
+                </div>
+                <div class="ticker-item">
+                    <div class="ticker-label">DÓLAR PROMEDIO</div>
+                    <div class="ticker-price" id="dol-promedio">$3,950</div>
+                    <div style="font-size: 12px; color: #00dd00; margin-top: 10px;">Bancos Colombia</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Articles Section -->
+        <div class="section panel" id="articulos">
+            <h2 class="pixel-font neon-green" style="font-size: 20px; margin-bottom: 30px;">📰 ARTÍCULOS Y ANÁLISIS</h2>
+            
+            <div class="article-card">
+                <div class="article-title">▶ Por Qué el Bitcoin es la Inversión del Futuro</div>
+                <div class="article-date">Publicado: 8 de Mayo, 2026</div>
+                <div class="article-content">
+                    Los expertos de GreenTrade Pro analizan por qué Bitcoin continúa siendo la criptomoneda más confiable. Con una capitalización de mercado superior a los 900 mil millones de dólares, Bitcoin demuestra su posición como "oro digital". La tecnología blockchain tras Bitcoin garantiza seguridad sin precedentes en transacciones financieras.
+                </div>
+            </div>
+
+            <div class="article-card">
+                <div class="article-title">▶ Rentabilidad Garantizada vs. Inversión Tradicional</div>
+                <div class="article-date">Publicado: 6 de Mayo, 2026</div>
+                <div class="article-content">
+                    Mientras que los bancos ofrecen rentabilidades del 1-3% anual, GreenTrade Pro ofrece 10% SEMANAL. Nuestro sistema de inversión inteligente utiliza algoritmos de machine learning para identificar oportunidades de arbitraje en los mercados internacionales de criptomonedas. Los resultados son medibles y verificables.
+                </div>
+            </div>
+
+            <div class="article-card">
+                <div class="article-title">▶ Cómo Funciona Nuestro Sistema de Inversión</div>
+                <div class="article-date">Publicado: 4 de Mayo, 2026</div>
+                <div class="article-content">
+                    Nuestro equipo de traders certificados opera 24/7 en múltiples plataformas de intercambio de criptomonedas. Utilizamos técnicas de trading de alta frecuencia, análisis técnico avanzado y diversificación de carteras para garantizar consistencia en los retornos. Todos nuestros movimientos están documentados y auditados mensualmente.
+                </div>
+            </div>
+
+            <div class="article-card">
+                <div class="article-title">▶ Regulación y Seguridad en GreenTrade Pro</div>
+                <div class="article-date">Publicado: 2 de Mayo, 2026</div>
+                <div class="article-content">
+                    Contamos con licencia de operación de la Superintendencia Financiera de Colombia. Todos los fondos de nuestros clientes están asegurados contra robos, hackeos y fraude. Nuestros servidores utilizan encriptación militar de 256 bits. Realizamos auditorías de seguridad trimestrales con firmas internacionales certificadas ISO 27001.
+                </div>
+            </div>
+
+            <div class="article-card">
+                <div class="article-title">▶ Tendencia: Adopción Masiva de Criptomonedas en Latinoamérica</div>
+                <div class="article-date">Publicado: 1 de Mayo, 2026</div>
+                <div class="article-content">
+                    Según estudios recientes, el 34% de los colombianos está interesado en invertir en criptomonedas. GreenTrade Pro lidera esta revolución financiera, facilitando acceso a inversiones que antes estaban reservadas para grandes capitales. Con depósitos mínimos de solo $100,000 COP, democratizamos el acceso a mercados globales.
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="section panel" id="reseñas">
+            <h2 class="pixel-font neon-green" style="font-size: 20px; margin-bottom: 30px;">⭐ RESEÑAS DE CLIENTES</h2>
+            
+            <div class="review-card">
+                <div class="review-author">Carlos Mendoza - Bogotá</div>
+                <div class="review-rating">★★★★★ 5/5 ESTRELLAS</div>
+                <div class="review-text">
+                    "Invertí $500,000 hace 3 meses con GreenTrade Pro. Mis retornos han sido exactos y consistentes. Cada semana recibo el 10% garantizado. El equipo de soporte es excelente y responden en menos de 2 horas. Altamente recomendado para quienes buscan crecimiento financiero real."
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-author">María Rodríguez - Medellín</div>
+                <div class="review-rating">★★★★★ 5/5 ESTRELLAS</div>
+                <div class="review-text">
+                    "Soy profesional independiente y necesitaba una inversión segura. GreenTrade Pro fue la mejor decisión que tomé. La transparencia en sus reportes es increíble. Veo exactamente dónde está mi dinero y qué retornos genera. Pasé de ganar 0% en el banco a ganar 40% mensual."
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-author">Juan Pablo Suárez - Cali</div>
+                <div class="review-rating">★★★★★ 5/5 ESTRELLAS</div>
+                <div class="review-text">
+                    "Como empresario, siempre busco oportunidades de inversión inteligente. GreenTrade Pro superó mis expectativas. No solo recuperé mi inversión inicial en 2 meses, sino que ahora estoy sacando ganancias mensuales que reinvierto. La plataforma es intuitiva y segura."
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-author">Sandra Gómez - Barranquilla</div>
+                <div class="review-rating">★★★★★ 5/5 ESTRELLAS</div>
+                <div class="review-text">
+                    "Tenía miedo de invertir en criptomonedas, pero GreenTrade Pro me hizo sentir segura. Su equipo explicó todo claramente sin tecnicismos. Llevo 6 meses aquí y nunca he tenido un problema. Mis ganancias han financiado la educación de mis hijos."
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-author">Roberto Martínez - Cartagena</div>
+                <div class="review-rating">★★★★★ 5/5 ESTRELLAS</div>
+                <div class="review-text">
+                    "Invirtiendo $1,000,000 mensualmente durante un año. GreenTrade Pro me ha permitido crear un patrimonio pasivo. El servicio de retiros es rápido y sin complicaciones. Recomiendo a todos mis amigos y familiares. Esto es lo que esperaban los colombianos."
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="section panel" style="text-align: center; background: rgba(0, 50, 0, 0.95); border-color: #00ffff; box-shadow: 0 0 40px rgba(0, 255, 0, 0.8);">
+            <h2 class="pixel-font neon-cyan" style="font-size: 28px; margin-bottom: 20px;">COMIENZA TU INVERSIÓN HOY</h2>
+            <p style="font-size: 16px; color: #aaffaa; margin-bottom: 30px; line-height: 1.8;">
+                ¿Listo para cambiar tu futuro financiero?<br>
+                Únete a más de 12,000 colombianos que ya están ganando con GreenTrade Pro
+            </p>
+            <button class="cta-button" style="padding: 15px 40px; font-size: 14px;">► ABRIR CUENTA GRATIS ◄</button>
+            <p style="font-size: 12px; color: #00bbbb; margin-top: 20px;">
+                Sin comisiones ocultas • 10% Semanal Garantizado • Retiros Instantáneos • Soporte 24/7
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer" id="contacto">
+            <p style="margin-bottom: 15px; font-size: 14px;">
+                <strong>GreenTrade Pro © 2026</strong> | Inversiones en Criptomonedas
+            </p>
+            <p style="margin-bottom: 10px;">
+                📍 Bogotá, Colombia | 📞 +57 (1) 8000-TRADE | 📧 info@greentrademx.com
+            </p>
+            <p style="margin-bottom: 10px; font-size: 11px; color: #00cc00;">
+                Regulado por: Superintendencia Financiera de Colombia | NIT: 901.234.567-8
+            </p>
+            <p style="font-size: 11px; color: #00bb00; line-height: 1.6;">
+                Descargo de Responsabilidad: Las inversiones en criptomonedas conllevan riesgo. GreenTrade Pro no garantiza rentabilidad futura.<br>
+                Por favor, lea nuestros términos y condiciones antes de invertir.
+            </p>
+        </div>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Services data
-            const services = [
-                { name: "Implantes Dentales", link: "https://wa.link/1dcqtd" }, { name: "Rehabilitación Oral", link: "https://wa.link/zi7vnz" },
-                { name: "Limpieza Ultrasónica", link: "https://wa.link/fob85p" }, { name: "Blanqueamiento", link: "https://wa.link/clo0u5" },
-                { name: "Prótesis Dentales", link: "https://wa.link/o08824" }, { name: "Ortodoncia", link: "https://wa.link/zk1teq" },
-                { name: "Extracción de Cordales", link: "https://wa.link/ej4p9k" }, { name: "Coronas Sin Metal", link: "https://wa.link/e2ghs1" },
-                { name: "Remoción de Caries", link: "https://wa.link/7h0278" }, { name: "Endodoncia", link: "https://wa.link/ulerkr" }
-            ];
-
-            // Interactive Services Slider
-            const sliderContainer = document.querySelector('.slider-container');
-            const sliderTrack = document.querySelector('.slider-track'); 
-            
-            if (sliderContainer && sliderTrack) {
-                // Populate slider
-                [...services, ...services].forEach(service => {
-                    sliderTrack.innerHTML += `
-                        <div class="slider-item glass-effect card-glow p-6 rounded-2xl text-center">
-                            <h3 class="text-lg font-bold brand-text">${service.name}</h3>
-                            <a href="${service.link}" target="_blank" class="text-sm mt-2 text-gray-300 hover:text-white">Saber más &rarr;</a>
-                        </div>`;
-                });
-
-                // Slider logic
-                let isDown = false;
-                let startX;
-                let scrollLeft;
-                let velocity = 0;
-                let momentumID;
-                let autoScrollID;
-
-                const startAutoScroll = () => {
-                    cancelAnimationFrame(autoScrollID);
-                    const scroll = () => {
-                        if (sliderContainer.scrollLeft >= sliderTrack.scrollWidth / 2) {
-                            sliderContainer.scrollLeft = 0;
-                        } else {
-                            sliderContainer.scrollLeft += 1; // Increased scroll speed
-                        }
-                        autoScrollID = requestAnimationFrame(scroll);
-                    };
-                    autoScrollID = requestAnimationFrame(scroll);
-                };
-
-                const handleDown = (e) => {
-                    isDown = true;
-                    sliderContainer.classList.add('active');
-                    startX = (e.pageX || e.touches[0].pageX) - sliderContainer.offsetLeft;
-                    scrollLeft = sliderContainer.scrollLeft;
-                    cancelAnimationFrame(momentumID);
-                    cancelAnimationFrame(autoScrollID);
-                    velocity = 0;
-                };
-
-                const handleUp = () => {
-                    if (!isDown) return;
-                    isDown = false;
-                    sliderContainer.classList.remove('active');
-                    beginMomentum();
-                };
-                
-                const handleMove = (e) => {
-                    if (!isDown) return;
-                    e.preventDefault();
-                    const x = (e.pageX || e.touches[0].pageX) - sliderContainer.offsetLeft;
-                    const walk = (x - startX);
-                    const prevScrollLeft = sliderContainer.scrollLeft;
-                    sliderContainer.scrollLeft = scrollLeft - walk;
-                    velocity = sliderContainer.scrollLeft - prevScrollLeft;
-                };
-
-                const beginMomentum = () => {
-                    cancelAnimationFrame(momentumID);
-                    const momentumLoop = () => {
-                        sliderContainer.scrollLeft += velocity;
-                        velocity *= 0.95; // Friction
-                        if (Math.abs(velocity) > 0.5) {
-                            momentumID = requestAnimationFrame(momentumLoop);
-                        } else {
-                            setTimeout(startAutoScroll, 3000); // Restart auto-scroll after a delay
-                        }
-                    };
-                    momentumID = requestAnimationFrame(momentumLoop);
-                };
-
-                sliderContainer.addEventListener('mousedown', handleDown);
-                sliderContainer.addEventListener('mouseleave', handleUp);
-                sliderContainer.addEventListener('mouseup', handleUp);
-                sliderContainer.addEventListener('mousemove', handleMove);
-                
-                sliderContainer.addEventListener('touchstart', handleDown, { passive: false });
-                sliderContainer.addEventListener('touchend', handleUp);
-                sliderContainer.addEventListener('touchmove', handleMove, { passive: false });
-
-                startAutoScroll();
-            }
-
-            // Video Modal
-            const videoModal = document.getElementById('video-modal');
-            const videoIframe = document.getElementById('video-iframe');
-            const modalCloseBtn = document.getElementById('modal-close-btn');
-            document.querySelectorAll('.video-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    const videoId = card.dataset.videoId;
-                    videoIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-                    videoModal.classList.add('active');
-                });
-            });
-            const closeModal = () => {
-                videoIframe.src = '';
-                videoModal.classList.remove('active');
+        function updatePrices() {
+            const prices = {
+                'btc': { element: 'btc-price', change: 'btc-change', min: 42000, max: 45000 },
+                'eth': { element: 'eth-price', change: 'eth-change', min: 2300, max: 2600 },
+                'xrp': { element: 'xrp-price', change: 'xrp-change', min: 2.0, max: 2.3 },
+                'ltc': { element: 'ltc-price', change: 'ltc-change', min: 190, max: 200 },
+                'usd-cop': { element: 'usd-cop', change: 'usd-cop-change', min: 3900, max: 4000 },
+                'eur-usd': { element: 'eur-usd', change: 'eur-usd-change', min: 1.08, max: 1.10 },
+                'gbp-usd': { element: 'gbp-usd', change: 'gbp-usd-change', min: 1.25, max: 1.28 }
             };
-            modalCloseBtn.addEventListener('click', closeModal);
-            videoModal.addEventListener('click', (e) => {
-                if(e.target === videoModal) closeModal();
+
+            for (let [key, data] of Object.entries(prices)) {
+                const newPrice = Math.random() * (data.max - data.min) + data.min;
+                const oldPrice = parseFloat(document.getElementById(data.element).textContent.replace('$', '').replace(',', ''));
+                const changePercent = (((newPrice - oldPrice) / oldPrice) * 100).toFixed(2);
+                
+                const priceElement = document.getElementById(data.element);
+                const changeElement = document.getElementById(data.change);
+                
+                priceElement.textContent = '$' + newPrice.toFixed(key.includes('usd') && key !== 'usd-cop' ? 4 : 2);
+                
+                if (changePercent > 0) {
+                    changeElement.innerHTML = '▲ +' + changePercent + '%';
+                    changeElement.className = 'change-up';
+                } else {
+                    changeElement.innerHTML = '▼ ' + changePercent + '%';
+                    changeElement.className = 'change-down';
+                }
+            }
+        }
+
+        setInterval(updatePrices, 3000);
+
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                alert('¡Gracias por tu interés!\n\nPara abrir tu cuenta, por favor:\n1. Completa el formulario de registro\n2. Verifica tu identidad\n3. Realiza tu depósito mínimo de $100,000 COP\n\nEstaremos en contacto pronto.');
             });
+        });
 
-            // Scroll Reveal Animation
-            const revealElements = document.querySelectorAll('.reveal');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('visible');
-                });
-            }, { threshold: 0.1 });
-            revealElements.forEach(el => observer.observe(el));
-
-            // Mobile Menu Toggle
-            const menuBtn = document.getElementById('menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-            document.querySelectorAll('.mobile-menu-link, #menu-btn').forEach(el => {
-                el.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
             });
         });
     </script>
 </body>
 </html>
-
