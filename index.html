@@ -1,1018 +1,1164 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GreenTrade Pro - Inversiones en Criptomonedas</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Orbitron', sans-serif;
-            background: #000000;
-            color: #00dd00;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        
-        .pixel-font {
-            font-family: 'Press Start 2P', cursive;
-            letter-spacing: 2px;
-        }
-        
-        .scanlines {
-            background-image: 
-                linear-gradient(0deg, transparent 24%, rgba(0, 200, 0, 0.02) 25%, rgba(0, 200, 0, 0.02) 26%, transparent 27%, transparent 74%, rgba(0, 200, 0, 0.02) 75%, rgba(0, 200, 0, 0.02) 76%, transparent 77%, transparent);
-            background-size: 50px 50px;
-            pointer-events: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-        
-        .content-wrapper {
-            position: relative;
-            z-index: 2;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Orbitron", sans-serif;
+        background: #000000;
+        color: #00dd00;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      .pixel-font {
+        font-family: "Press Start 2P", cursive;
+        letter-spacing: 2px;
+      }
+
+      .scanlines {
+        background-image: linear-gradient(
+          0deg,
+          transparent 24%,
+          rgba(0, 200, 0, 0.02) 25%,
+          rgba(0, 200, 0, 0.02) 26%,
+          transparent 27%,
+          transparent 74%,
+          rgba(0, 200, 0, 0.02) 75%,
+          rgba(0, 200, 0, 0.02) 76%,
+          transparent 77%,
+          transparent
+        );
+        background-size: 50px 50px;
+        pointer-events: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+
+      .content-wrapper {
+        position: relative;
+        z-index: 2;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .nav-header {
+        background: #0a0a0a;
+        border-bottom: 2px solid #00aa00;
+        padding: 15px 20px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .header-title {
+        font-size: 18px;
+        font-weight: 900;
+        letter-spacing: 2px;
+        color: #00dd00;
+      }
+
+      nav {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      nav a,
+      nav button {
+        color: #00dd00;
+        text-decoration: none;
+        font-size: 12px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-family: inherit;
+        transition: color 0.3s;
+      }
+
+      nav a:hover,
+      nav button:hover {
+        color: #00ff00;
+      }
+
+      .section {
+        padding: 30px 20px;
+        margin: 20px 0;
+      }
+
+      .panel {
+        background: #0d0d0d;
+        border: 2px solid #00aa00;
+        padding: 25px;
+        margin: 15px 0;
+      }
+
+      .panel-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #00dd00;
+        margin-bottom: 20px;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .stat-box {
+        background: #0a0a0a;
+        border: 1px solid #00aa00;
+        padding: 15px;
+        text-align: center;
+      }
+
+      .stat-label {
+        font-size: 11px;
+        color: #00aa00;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+      }
+
+      .stat-value {
+        font-size: 20px;
+        font-weight: bold;
+        color: #00dd00;
+        font-family: "Orbitron", monospace;
+      }
+
+      .market-ticker {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 12px;
+        margin: 20px 0;
+      }
+
+      .ticker-item {
+        background: #0a0a0a;
+        border: 1px solid #00aa00;
+        padding: 12px;
+        text-align: center;
+        font-size: 11px;
+      }
+
+      .ticker-label {
+        color: #008800;
+        margin-bottom: 5px;
+      }
+
+      .ticker-price {
+        font-size: 14px;
+        font-weight: bold;
+        color: #00dd00;
+        margin: 5px 0;
+      }
+
+      .change-up {
+        color: #00dd00;
+      }
+
+      .change-down {
+        color: #aa0000;
+      }
+
+      .article-card {
+        background: #0a0a0a;
+        border: 1px solid #00aa00;
+        padding: 15px;
+        margin: 12px 0;
+        font-size: 12px;
+        transition: border-color 0.3s;
+      }
+
+      .article-card:hover {
+        border-color: #00dd00;
+      }
+
+      .article-title {
+        font-size: 13px;
+        font-weight: bold;
+        color: #00dd00;
+        margin-bottom: 8px;
+      }
+
+      .article-date {
+        font-size: 10px;
+        color: #008800;
+        margin-bottom: 8px;
+      }
+
+      .article-content {
+        font-size: 11px;
+        color: #00bb00;
+        line-height: 1.5;
+      }
+
+      .review-card {
+        background: #0a0a0a;
+        border: 1px solid #006688;
+        padding: 15px;
+        margin: 12px 0;
+        font-size: 11px;
+      }
+
+      .review-author {
+        font-weight: bold;
+        color: #00bbbb;
+        margin-bottom: 5px;
+      }
+
+      .review-rating {
+        color: #ddaa00;
+        font-weight: bold;
+        margin: 5px 0;
+        font-size: 10px;
+      }
+
+      .review-text {
+        color: #00bb00;
+        line-height: 1.4;
+      }
+
+      .cta-button {
+        background: #001100;
+        border: 2px solid #00aa00;
+        color: #00dd00;
+        padding: 10px 20px;
+        font-weight: bold;
+        cursor: pointer;
+        font-family: "Orbitron", monospace;
+        font-size: 11px;
+        transition: all 0.3s;
+        text-transform: uppercase;
+        display: inline-block;
+        margin-top: 15px;
+      }
+
+      .cta-button:hover {
+        border-color: #00ff00;
+        color: #00ff00;
+        background: #001f00;
+      }
+
+      .footer {
+        background: #0a0a0a;
+        border-top: 2px solid #00aa00;
+        padding: 25px 20px;
+        text-align: center;
+        font-size: 10px;
+        color: #00aa00;
+      }
+
+      .hero {
+        text-align: center;
+        padding: 40px 20px;
+      }
+
+      .hero h1 {
+        font-size: 24px;
+        margin-bottom: 15px;
+        color: #00dd00;
+      }
+
+      .hero h2 {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: #00bb00;
+      }
+
+      .hero p {
+        font-size: 13px;
+        margin-bottom: 20px;
+        color: #00bb00;
+        line-height: 1.6;
+      }
+
+      /* Login & Register Styles */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 200;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: #0d0d0d;
+        border: 2px solid #00aa00;
+        padding: 30px;
+        max-width: 400px;
+        width: 90%;
+      }
+
+      .modal-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #00dd00;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        font-size: 11px;
+        color: #00aa00;
+        display: block;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        background: #0a0a0a;
+        border: 1px solid #00aa00;
+        color: #00dd00;
+        padding: 8px;
+        font-family: inherit;
+        font-size: 12px;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: #00ff00;
+      }
+
+      .form-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .form-buttons button {
+        flex: 1;
+        padding: 10px;
+        font-size: 11px;
+        cursor: pointer;
+        font-family: inherit;
+        border: 1px solid #00aa00;
+        color: #00dd00;
+        background: #001100;
+        text-transform: uppercase;
+      }
+
+      .form-buttons button:hover {
+        background: #001f00;
+        border-color: #00ff00;
+      }
+
+      /* Dashboard Styles */
+      .dashboard {
+        display: none;
+      }
+
+      .dashboard.active {
+        display: block;
+      }
+
+      .portfolio-header {
+        background: #0a0a0a;
+        border: 1px solid #00aa00;
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+
+      .portfolio-item {
+        background: #0a0a0a;
+        border: 1px solid #00aa00;
+        padding: 15px;
+        margin-bottom: 10px;
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .portfolio-info h3 {
+        font-size: 12px;
+        color: #00dd00;
+        margin-bottom: 5px;
+      }
+
+      .portfolio-info p {
+        font-size: 11px;
+        color: #00aa00;
+      }
+
+      .portfolio-amount {
+        text-align: right;
+      }
+
+      .portfolio-amount .label {
+        font-size: 10px;
+        color: #00aa00;
+      }
+
+      .portfolio-amount .value {
+        font-size: 16px;
+        color: #00dd00;
+        font-weight: bold;
+      }
+
+      .portfolio-action {
+        text-align: right;
+      }
+
+      .portfolio-action button {
+        background: #001100;
+        border: 1px solid #00aa00;
+        color: #00dd00;
+        padding: 8px 12px;
+        font-size: 10px;
+        cursor: pointer;
+        font-family: inherit;
+        margin: 2px;
+      }
+
+      .portfolio-action button:hover {
+        background: #001f00;
+        border-color: #00ff00;
+      }
+
+      .deposit-form {
+        background: #0a0a0a;
+        border: 1px solid #00aa00;
+        padding: 20px;
+        margin-top: 20px;
+      }
+
+      .message {
+        padding: 12px;
+        margin: 10px 0;
+        border: 1px solid #00aa00;
+        font-size: 11px;
+        display: none;
+      }
+
+      .message.success {
+        background: rgba(0, 100, 0, 0.1);
+        color: #00dd00;
+        border-color: #00dd00;
+      }
+
+      .message.error {
+        background: rgba(100, 0, 0, 0.1);
+        color: #aa0000;
+        border-color: #aa0000;
+      }
+
+      .message.active {
+        display: block;
+      }
+
+      @media (max-width: 768px) {
         .nav-header {
-            background: #0a0a0a;
-            border-bottom: 2px solid #00aa00;
-            padding: 15px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
+          padding: 12px 15px;
+          gap: 10px;
         }
-        
+
         .header-title {
-            font-size: 18px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            color: #00dd00;
+          font-size: 14px;
         }
-        
+
         nav {
-            display: flex;
-            gap: 20px;
-            align-items: center;
+          gap: 10px;
+          width: 100%;
+          justify-content: flex-end;
         }
-        
-        nav a, nav button {
-            color: #00dd00;
-            text-decoration: none;
-            font-size: 12px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-family: inherit;
-            transition: color 0.3s;
+
+        nav a,
+        nav button {
+          font-size: 10px;
         }
-        
-        nav a:hover, nav button:hover {
-            color: #00ff00;
-        }
-        
+
         .section {
-            padding: 30px 20px;
-            margin: 20px 0;
+          padding: 20px 15px;
         }
-        
+
         .panel {
-            background: #0d0d0d;
-            border: 2px solid #00aa00;
-            padding: 25px;
-            margin: 15px 0;
+          padding: 15px;
         }
-        
-        .panel-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #00dd00;
-            margin-bottom: 20px;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .stat-box {
-            background: #0a0a0a;
-            border: 1px solid #00aa00;
-            padding: 15px;
-            text-align: center;
-        }
-        
-        .stat-label {
-            font-size: 11px;
-            color: #00aa00;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-        
-        .stat-value {
-            font-size: 20px;
-            font-weight: bold;
-            color: #00dd00;
-            font-family: 'Orbitron', monospace;
-        }
-        
-        .market-ticker {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin: 20px 0;
-        }
-        
-        .ticker-item {
-            background: #0a0a0a;
-            border: 1px solid #00aa00;
-            padding: 12px;
-            text-align: center;
-            font-size: 11px;
-        }
-        
-        .ticker-label {
-            color: #008800;
-            margin-bottom: 5px;
-        }
-        
-        .ticker-price {
-            font-size: 14px;
-            font-weight: bold;
-            color: #00dd00;
-            margin: 5px 0;
-        }
-        
-        .change-up {
-            color: #00dd00;
-        }
-        
-        .change-down {
-            color: #aa0000;
-        }
-        
-        .article-card {
-            background: #0a0a0a;
-            border: 1px solid #00aa00;
-            padding: 15px;
-            margin: 12px 0;
-            font-size: 12px;
-            transition: border-color 0.3s;
-        }
-        
-        .article-card:hover {
-            border-color: #00dd00;
-        }
-        
-        .article-title {
-            font-size: 13px;
-            font-weight: bold;
-            color: #00dd00;
-            margin-bottom: 8px;
-        }
-        
-        .article-date {
-            font-size: 10px;
-            color: #008800;
-            margin-bottom: 8px;
-        }
-        
-        .article-content {
-            font-size: 11px;
-            color: #00bb00;
-            line-height: 1.5;
-        }
-        
-        .review-card {
-            background: #0a0a0a;
-            border: 1px solid #006688;
-            padding: 15px;
-            margin: 12px 0;
-            font-size: 11px;
-        }
-        
-        .review-author {
-            font-weight: bold;
-            color: #00bbbb;
-            margin-bottom: 5px;
-        }
-        
-        .review-rating {
-            color: #ddaa00;
-            font-weight: bold;
-            margin: 5px 0;
-            font-size: 10px;
-        }
-        
-        .review-text {
-            color: #00bb00;
-            line-height: 1.4;
-        }
-        
-        .cta-button {
-            background: #001100;
-            border: 2px solid #00aa00;
-            color: #00dd00;
-            padding: 10px 20px;
-            font-weight: bold;
-            cursor: pointer;
-            font-family: 'Orbitron', monospace;
-            font-size: 11px;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            display: inline-block;
-            margin-top: 15px;
-        }
-        
-        .cta-button:hover {
-            border-color: #00ff00;
-            color: #00ff00;
-            background: #001f00;
-        }
-        
-        .footer {
-            background: #0a0a0a;
-            border-top: 2px solid #00aa00;
-            padding: 25px 20px;
-            text-align: center;
-            font-size: 10px;
-            color: #00aa00;
-        }
-        
-        .hero {
-            text-align: center;
-            padding: 40px 20px;
-        }
-        
+
         .hero h1 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: #00dd00;
+          font-size: 18px;
         }
-        
+
         .hero h2 {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #00bb00;
+          font-size: 14px;
         }
-        
+
         .hero p {
-            font-size: 13px;
-            margin-bottom: 20px;
-            color: #00bb00;
-            line-height: 1.6;
+          font-size: 11px;
         }
-        
-        /* Login & Register Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 200;
-            align-items: center;
-            justify-content: center;
+
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
         }
-        
-        .modal.active {
-            display: flex;
+
+        .stat-value {
+          font-size: 16px;
         }
-        
-        .modal-content {
-            background: #0d0d0d;
-            border: 2px solid #00aa00;
-            padding: 30px;
-            max-width: 400px;
-            width: 90%;
+
+        .market-ticker {
+          grid-template-columns: repeat(2, 1fr);
         }
-        
-        .modal-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #00dd00;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-group label {
-            font-size: 11px;
-            color: #00aa00;
-            display: block;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-        
-        .form-group input, .form-group select {
-            width: 100%;
-            background: #0a0a0a;
-            border: 1px solid #00aa00;
-            color: #00dd00;
-            padding: 8px;
-            font-family: inherit;
-            font-size: 12px;
-        }
-        
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #00ff00;
-        }
-        
-        .form-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .form-buttons button {
-            flex: 1;
-            padding: 10px;
-            font-size: 11px;
-            cursor: pointer;
-            font-family: inherit;
-            border: 1px solid #00aa00;
-            color: #00dd00;
-            background: #001100;
-            text-transform: uppercase;
-        }
-        
-        .form-buttons button:hover {
-            background: #001f00;
-            border-color: #00ff00;
-        }
-        
-        /* Dashboard Styles */
-        .dashboard {
-            display: none;
-        }
-        
-        .dashboard.active {
-            display: block;
-        }
-        
-        .portfolio-header {
-            background: #0a0a0a;
-            border: 1px solid #00aa00;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        
+
         .portfolio-item {
-            background: #0a0a0a;
-            border: 1px solid #00aa00;
-            padding: 15px;
-            margin-bottom: 10px;
-            display: grid;
-            grid-template-columns: 1fr auto auto;
-            gap: 20px;
-            align-items: center;
+          grid-template-columns: 1fr;
+          gap: 10px;
         }
-        
-        .portfolio-info h3 {
-            font-size: 12px;
-            color: #00dd00;
-            margin-bottom: 5px;
-        }
-        
-        .portfolio-info p {
-            font-size: 11px;
-            color: #00aa00;
-        }
-        
+
         .portfolio-amount {
-            text-align: right;
+          text-align: left;
         }
-        
-        .portfolio-amount .label {
-            font-size: 10px;
-            color: #00aa00;
+
+        .modal-content {
+          width: 95%;
+          padding: 20px;
         }
-        
-        .portfolio-amount .value {
-            font-size: 16px;
-            color: #00dd00;
-            font-weight: bold;
+      }
+
+      @media (max-width: 480px) {
+        .nav-header {
+          padding: 10px;
+          gap: 8px;
         }
-        
-        .portfolio-action {
-            text-align: right;
+
+        .header-title {
+          font-size: 12px;
         }
-        
-        .portfolio-action button {
-            background: #001100;
-            border: 1px solid #00aa00;
-            color: #00dd00;
-            padding: 8px 12px;
-            font-size: 10px;
-            cursor: pointer;
-            font-family: inherit;
-            margin: 2px;
+
+        nav {
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 5px;
         }
-        
-        .portfolio-action button:hover {
-            background: #001f00;
-            border-color: #00ff00;
+
+        .hero h1 {
+          font-size: 16px;
         }
-        
-        .deposit-form {
-            background: #0a0a0a;
-            border: 1px solid #00aa00;
-            padding: 20px;
-            margin-top: 20px;
+
+        .stats-grid {
+          grid-template-columns: 1fr;
         }
-        
-        .message {
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #00aa00;
-            font-size: 11px;
-            display: none;
+
+        .market-ticker {
+          grid-template-columns: 1fr;
         }
-        
-        .message.success {
-            background: rgba(0, 100, 0, 0.1);
-            color: #00dd00;
-            border-color: #00dd00;
+
+        .section {
+          padding: 15px 10px;
         }
-        
-        .message.error {
-            background: rgba(100, 0, 0, 0.1);
-            color: #aa0000;
-            border-color: #aa0000;
+
+        .panel {
+          padding: 12px;
+          margin: 10px 0;
         }
-        
-        .message.active {
-            display: block;
-        }
-        
-        @media (max-width: 768px) {
-            .nav-header {
-                padding: 12px 15px;
-                gap: 10px;
-            }
-            
-            .header-title {
-                font-size: 14px;
-            }
-            
-            nav {
-                gap: 10px;
-                width: 100%;
-                justify-content: flex-end;
-            }
-            
-            nav a, nav button {
-                font-size: 10px;
-            }
-            
-            .section {
-                padding: 20px 15px;
-            }
-            
-            .panel {
-                padding: 15px;
-            }
-            
-            .hero h1 {
-                font-size: 18px;
-            }
-            
-            .hero h2 {
-                font-size: 14px;
-            }
-            
-            .hero p {
-                font-size: 11px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
-            
-            .stat-value {
-                font-size: 16px;
-            }
-            
-            .market-ticker {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .portfolio-item {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-            
-            .portfolio-amount {
-                text-align: left;
-            }
-            
-            .modal-content {
-                width: 95%;
-                padding: 20px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .nav-header {
-                padding: 10px;
-                gap: 8px;
-            }
-            
-            .header-title {
-                font-size: 12px;
-            }
-            
-            nav {
-                flex-direction: column;
-                align-items: flex-end;
-                gap: 5px;
-            }
-            
-            .hero h1 {
-                font-size: 16px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .market-ticker {
-                grid-template-columns: 1fr;
-            }
-            
-            .section {
-                padding: 15px 10px;
-            }
-            
-            .panel {
-                padding: 12px;
-                margin: 10px 0;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="scanlines"></div>
-    
+
     <div class="content-wrapper">
-        <!-- Header -->
-        <div class="nav-header">
-            <div class="header-title">▶ GREENTRADE</div>
-            <nav>
-                <a href="#" onclick="showHome(); return false;">INICIO</a>
-                <a href="#" onclick="showHome(); return false;">MERCADO</a>
-                <a href="#" onclick="toggleLoginModal(); return false;" id="loginBtn">INGRESAR</a>
-                <a href="#" onclick="toggleRegisterModal(); return false;" id="registerBtn">REGISTRARSE</a>
-                <button onclick="logout()" id="logoutBtn" style="display:none;">CERRAR SESIÓN</button>
-                <button onclick="showDashboard()" id="dashboardBtn" style="display:none;">MI CARTERA</button>
-            </nav>
+      <!-- Header -->
+      <div class="nav-header">
+        <div class="header-title">▶ GREENTRADE</div>
+        <nav>
+          <a
+            href="#"
+            onclick="
+              showHome();
+              return false;
+            "
+            >INICIO</a
+          >
+          <a
+            href="#"
+            onclick="
+              showHome();
+              return false;
+            "
+            >MERCADO</a
+          >
+          <a
+            href="#"
+            onclick="
+              toggleLoginModal();
+              return false;
+            "
+            id="loginBtn"
+            >INGRESAR</a
+          >
+          <a
+            href="#"
+            onclick="
+              toggleRegisterModal();
+              return false;
+            "
+            id="registerBtn"
+            >REGISTRARSE</a
+          >
+          <button onclick="logout()" id="logoutBtn" style="display: none">
+            CERRAR SESIÓN
+          </button>
+          <button
+            onclick="showDashboard()"
+            id="dashboardBtn"
+            style="display: none"
+          >
+            MI CARTERA
+          </button>
+        </nav>
+      </div>
+
+      <!-- Login Modal -->
+      <div class="modal" id="loginModal">
+        <div class="modal-content">
+          <div class="modal-title">▶ INGRESAR</div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="loginEmail" placeholder="tu@email.com" />
+          </div>
+          <div class="form-group">
+            <label>Contraseña</label>
+            <input type="password" id="loginPassword" placeholder="••••••••" />
+          </div>
+          <div class="form-buttons">
+            <button onclick="login()">INGRESAR</button>
+            <button onclick="toggleLoginModal()">CANCELAR</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Register Modal -->
+      <div class="modal" id="registerModal">
+        <div class="modal-content">
+          <div class="modal-title">▶ CREAR CUENTA</div>
+          <div class="form-group">
+            <label>Nombre Completo</label>
+            <input type="text" id="registerName" placeholder="Tu nombre" />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="registerEmail" placeholder="tu@email.com" />
+          </div>
+          <div class="form-group">
+            <label>Contraseña</label>
+            <input
+              type="password"
+              id="registerPassword"
+              placeholder="••••••••"
+            />
+          </div>
+          <div class="form-group">
+            <label>Confirmar Contraseña</label>
+            <input
+              type="password"
+              id="registerPassword2"
+              placeholder="••••••••"
+            />
+          </div>
+          <div class="form-group">
+            <label>Billetera (Bitcoin)</label>
+            <input
+              type="text"
+              id="registerWallet"
+              placeholder="1A1z7agoat..."
+            />
+          </div>
+          <div class="form-buttons">
+            <button onclick="register()">CREAR CUENTA</button>
+            <button onclick="toggleRegisterModal()">CANCELAR</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Home Page -->
+      <div id="homePage">
+        <!-- Hero -->
+        <div class="section hero">
+          <h1 class="pixel-font">GREENTRADE PRO</h1>
+          <h2>Inversiones en Criptomonedas</h2>
+          <p>
+            Plataforma segura y regulada para invertir en Colombia<br />Rentabilidad
+            Garantizada: 10% Semanal
+          </p>
+          <button class="cta-button" onclick="toggleRegisterModal()">
+            ► ABRIR CUENTA ◄
+          </button>
         </div>
 
-        <!-- Login Modal -->
-        <div class="modal" id="loginModal">
-            <div class="modal-content">
-                <div class="modal-title">▶ INGRESAR</div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="loginEmail" placeholder="tu@email.com">
-                </div>
-                <div class="form-group">
-                    <label>Contraseña</label>
-                    <input type="password" id="loginPassword" placeholder="••••••••">
-                </div>
-                <div class="form-buttons">
-                    <button onclick="login()">INGRESAR</button>
-                    <button onclick="toggleLoginModal()">CANCELAR</button>
-                </div>
+        <!-- Stats -->
+        <div class="section">
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-label">Inversión Mínima</div>
+              <div class="stat-value">$100K</div>
+              <div class="stat-label" style="margin-top: 5px">COP</div>
             </div>
+            <div class="stat-box">
+              <div class="stat-label">Clientes</div>
+              <div class="stat-value">12,847</div>
+              <div class="stat-label" style="margin-top: 5px">Activos</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Capital</div>
+              <div class="stat-value">$2.3B</div>
+              <div class="stat-label" style="margin-top: 5px">USD</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Rentabilidad</div>
+              <div class="stat-value">10%</div>
+              <div class="stat-label" style="margin-top: 5px">Semanal</div>
+            </div>
+          </div>
         </div>
 
-        <!-- Register Modal -->
-        <div class="modal" id="registerModal">
-            <div class="modal-content">
-                <div class="modal-title">▶ CREAR CUENTA</div>
-                <div class="form-group">
-                    <label>Nombre Completo</label>
-                    <input type="text" id="registerName" placeholder="Tu nombre">
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="registerEmail" placeholder="tu@email.com">
-                </div>
-                <div class="form-group">
-                    <label>Contraseña</label>
-                    <input type="password" id="registerPassword" placeholder="••••••••">
-                </div>
-                <div class="form-group">
-                    <label>Confirmar Contraseña</label>
-                    <input type="password" id="registerPassword2" placeholder="••••••••">
-                </div>
-                <div class="form-group">
-                    <label>Billetera (Bitcoin)</label>
-                    <input type="text" id="registerWallet" placeholder="1A1z7agoat...">
-                </div>
-                <div class="form-buttons">
-                    <button onclick="register()">CREAR CUENTA</button>
-                    <button onclick="toggleRegisterModal()">CANCELAR</button>
-                </div>
+        <!-- Market Data -->
+        <div class="section panel">
+          <div class="panel-title">📊 CRIPTOMONEDAS (Tiempo Real)</div>
+          <div class="market-ticker">
+            <div class="ticker-item">
+              <div class="ticker-label">▶ BITCOIN</div>
+              <div class="ticker-price" id="btc-price">$43,500</div>
+              <div class="ticker-change">
+                <span class="change-up" id="btc-change">▲ +2.45%</span>
+              </div>
             </div>
+            <div class="ticker-item">
+              <div class="ticker-label">▶ ETHEREUM</div>
+              <div class="ticker-price" id="eth-price">$2,450</div>
+              <div class="ticker-change">
+                <span class="change-up" id="eth-change">▲ +1.89%</span>
+              </div>
+            </div>
+            <div class="ticker-item">
+              <div class="ticker-label">▶ RIPPLE</div>
+              <div class="ticker-price" id="xrp-price">$2.15</div>
+              <div class="ticker-change">
+                <span class="change-down" id="xrp-change">▼ -0.52%</span>
+              </div>
+            </div>
+            <div class="ticker-item">
+              <div class="ticker-label">▶ LITECOIN</div>
+              <div class="ticker-price" id="ltc-price">$195.30</div>
+              <div class="ticker-change">
+                <span class="change-up" id="ltc-change">▲ +3.15%</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Home Page -->
-        <div id="homePage">
-            <!-- Hero -->
-            <div class="section hero">
-                <h1 class="pixel-font">GREENTRADE PRO</h1>
-                <h2>Inversiones en Criptomonedas</h2>
-                <p>Plataforma segura y regulada para invertir en Colombia<br>Rentabilidad Garantizada: 10% Semanal</p>
-                <button class="cta-button" onclick="toggleRegisterModal()">► ABRIR CUENTA ◄</button>
+        <!-- USD/COP -->
+        <div class="section panel">
+          <div class="panel-title">💱 DIVISAS (Tiempo Real)</div>
+          <div class="market-ticker">
+            <div class="ticker-item">
+              <div class="ticker-label">USD / COP</div>
+              <div class="ticker-price" id="usd-cop">$3,950</div>
+              <div class="ticker-change">
+                <span class="change-down" id="usd-cop-change">▼ -0.23%</span>
+              </div>
             </div>
-
-            <!-- Stats -->
-            <div class="section">
-                <div class="stats-grid">
-                    <div class="stat-box">
-                        <div class="stat-label">Inversión Mínima</div>
-                        <div class="stat-value">$100K</div>
-                        <div class="stat-label" style="margin-top: 5px;">COP</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-label">Clientes</div>
-                        <div class="stat-value">12,847</div>
-                        <div class="stat-label" style="margin-top: 5px;">Activos</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-label">Capital</div>
-                        <div class="stat-value">$2.3B</div>
-                        <div class="stat-label" style="margin-top: 5px;">USD</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-label">Rentabilidad</div>
-                        <div class="stat-value">10%</div>
-                        <div class="stat-label" style="margin-top: 5px;">Semanal</div>
-                    </div>
-                </div>
+            <div class="ticker-item">
+              <div class="ticker-label">EUR / USD</div>
+              <div class="ticker-price" id="eur-usd">1.0875</div>
+              <div class="ticker-change">
+                <span class="change-up" id="eur-usd-change">▲ +0.12%</span>
+              </div>
             </div>
-
-            <!-- Market Data -->
-            <div class="section panel">
-                <div class="panel-title">📊 CRIPTOMONEDAS (Tiempo Real)</div>
-                <div class="market-ticker">
-                    <div class="ticker-item">
-                        <div class="ticker-label">▶ BITCOIN</div>
-                        <div class="ticker-price" id="btc-price">$43,500</div>
-                        <div class="ticker-change"><span class="change-up" id="btc-change">▲ +2.45%</span></div>
-                    </div>
-                    <div class="ticker-item">
-                        <div class="ticker-label">▶ ETHEREUM</div>
-                        <div class="ticker-price" id="eth-price">$2,450</div>
-                        <div class="ticker-change"><span class="change-up" id="eth-change">▲ +1.89%</span></div>
-                    </div>
-                    <div class="ticker-item">
-                        <div class="ticker-label">▶ RIPPLE</div>
-                        <div class="ticker-price" id="xrp-price">$2.15</div>
-                        <div class="ticker-change"><span class="change-down" id="xrp-change">▼ -0.52%</span></div>
-                    </div>
-                    <div class="ticker-item">
-                        <div class="ticker-label">▶ LITECOIN</div>
-                        <div class="ticker-price" id="ltc-price">$195.30</div>
-                        <div class="ticker-change"><span class="change-up" id="ltc-change">▲ +3.15%</span></div>
-                    </div>
-                </div>
+            <div class="ticker-item">
+              <div class="ticker-label">GBP / USD</div>
+              <div class="ticker-price" id="gbp-usd">1.2650</div>
+              <div class="ticker-change">
+                <span class="change-up" id="gbp-usd-change">▲ +0.45%</span>
+              </div>
             </div>
-
-            <!-- USD/COP -->
-            <div class="section panel">
-                <div class="panel-title">💱 DIVISAS (Tiempo Real)</div>
-                <div class="market-ticker">
-                    <div class="ticker-item">
-                        <div class="ticker-label">USD / COP</div>
-                        <div class="ticker-price" id="usd-cop">$3,950</div>
-                        <div class="ticker-change"><span class="change-down" id="usd-cop-change">▼ -0.23%</span></div>
-                    </div>
-                    <div class="ticker-item">
-                        <div class="ticker-label">EUR / USD</div>
-                        <div class="ticker-price" id="eur-usd">1.0875</div>
-                        <div class="ticker-change"><span class="change-up" id="eur-usd-change">▲ +0.12%</span></div>
-                    </div>
-                    <div class="ticker-item">
-                        <div class="ticker-label">GBP / USD</div>
-                        <div class="ticker-price" id="gbp-usd">1.2650</div>
-                        <div class="ticker-change"><span class="change-up" id="gbp-usd-change">▲ +0.45%</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Articles -->
-            <div class="section panel">
-                <div class="panel-title">📰 ÚLTIMAS NOTICIAS</div>
-                <div class="article-card">
-                    <div class="article-title">Bitcoin continúa al alza</div>
-                    <div class="article-date">Mayo 9, 2026</div>
-                    <div class="article-content">Los expertos predicen un bull market para el segundo trimestre. Bitcoin ha alcanzado nuevos máximos históricos.</div>
-                </div>
-                <div class="article-card">
-                    <div class="article-title">Ethereum supera expectativas</div>
-                    <div class="article-date">Mayo 8, 2026</div>
-                    <div class="article-content">Las actualizaciones en la red Ethereum muestran un aumento del 15% en volumen de transacciones.</div>
-                </div>
-                <div class="article-card">
-                    <div class="article-title">Regulación positiva en América Latina</div>
-                    <div class="article-date">Mayo 7, 2026</div>
-                    <div class="article-content">Colombia regula favorablemente el trading de criptomonedas, abriendo oportunidades para inversores.</div>
-                </div>
-            </div>
-
-            <!-- Reviews -->
-            <div class="section panel">
-                <div class="panel-title">⭐ RESEÑAS DE CLIENTES</div>
-                <div class="review-card">
-                    <div class="review-author">Carlos M. - Bogotá</div>
-                    <div class="review-rating">★★★★★ 5/5</div>
-                    <div class="review-text">"Invertí hace 3 meses. Retornos consistentes cada semana. Excelente servicio."</div>
-                </div>
-                <div class="review-card">
-                    <div class="review-author">María R. - Medellín</div>
-                    <div class="review-rating">★★★★★ 5/5</div>
-                    <div class="review-text">"La mejor plataforma. Pasé de ganar 0% en el banco a 40% mensual."</div>
-                </div>
-                <div class="review-card">
-                    <div class="review-author">Juan S. - Cali</div>
-                    <div class="review-rating">★★★★★ 5/5</div>
-                    <div class="review-text">"Seguro, rápido y transparente. Recomendado 100%."</div>
-                </div>
-            </div>
+          </div>
         </div>
 
-        <!-- Dashboard Page -->
-        <div id="dashboardPage" class="dashboard">
-            <div class="section">
-                <h2 class="panel-title">MI CARTERA DE INVERSIÓN</h2>
-                <div class="portfolio-header">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 12px;">
-                        <div>
-                            <div style="color: #008800; margin-bottom: 5px;">SALDO INVERTIDO</div>
-                            <div style="color: #00dd00; font-size: 20px; font-weight: bold;" id="totalInvested">$0</div>
-                        </div>
-                        <div>
-                            <div style="color: #008800; margin-bottom: 5px;">GANANCIAS GENERADAS</div>
-                            <div style="color: #00dd00; font-size: 20px; font-weight: bold;" id="totalEarnings">$0</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="margin-top: 20px;" id="portfolioItems"></div>
-
-                <div class="deposit-form">
-                    <h3 style="color: #00dd00; font-size: 12px; margin-bottom: 15px;">REALIZAR DEPÓSITO</h3>
-                    <div class="form-group">
-                        <label>Cantidad a Invertir (COP)</label>
-                        <input type="number" id="depositAmount" placeholder="100000" min="100000">
-                    </div>
-                    <div class="form-group">
-                        <label>Método de Pago</label>
-                        <select id="paymentMethod">
-                            <option value="">Seleccionar...</option>
-                            <option value="bitcoin">Bitcoin</option>
-                            <option value="transfer">Transferencia Bancaria</option>
-                            <option value="card">Tarjeta de Crédito</option>
-                        </select>
-                    </div>
-                    <div id="depositMessage" class="message"></div>
-                    <button class="cta-button" style="width: 100%; margin-top: 15px;" onclick="deposit()">INVERTIR AHORA</button>
-                </div>
+        <!-- Articles -->
+        <div class="section panel">
+          <div class="panel-title">📰 ÚLTIMAS NOTICIAS</div>
+          <div class="article-card">
+            <div class="article-title">Bitcoin continúa al alza</div>
+            <div class="article-date">Mayo 9, 2026</div>
+            <div class="article-content">
+              Los expertos predicen un bull market para el segundo trimestre.
+              Bitcoin ha alcanzado nuevos máximos históricos.
             </div>
+          </div>
+          <div class="article-card">
+            <div class="article-title">Ethereum supera expectativas</div>
+            <div class="article-date">Mayo 8, 2026</div>
+            <div class="article-content">
+              Las actualizaciones en la red Ethereum muestran un aumento del 15%
+              en volumen de transacciones.
+            </div>
+          </div>
+          <div class="article-card">
+            <div class="article-title">
+              Regulación positiva en América Latina
+            </div>
+            <div class="article-date">Mayo 7, 2026</div>
+            <div class="article-content">
+              Colombia regula favorablemente el trading de criptomonedas,
+              abriendo oportunidades para inversores.
+            </div>
+          </div>
         </div>
+
+        <!-- Reviews -->
+        <div class="section panel">
+          <div class="panel-title">⭐ RESEÑAS DE CLIENTES</div>
+          <div class="review-card">
+            <div class="review-author">Carlos M. - Bogotá</div>
+            <div class="review-rating">★★★★★ 5/5</div>
+            <div class="review-text">
+              "Invertí hace 3 meses. Retornos consistentes cada semana.
+              Excelente servicio."
+            </div>
+          </div>
+          <div class="review-card">
+            <div class="review-author">María R. - Medellín</div>
+            <div class="review-rating">★★★★★ 5/5</div>
+            <div class="review-text">
+              "La mejor plataforma. Pasé de ganar 0% en el banco a 40% mensual."
+            </div>
+          </div>
+          <div class="review-card">
+            <div class="review-author">Juan S. - Cali</div>
+            <div class="review-rating">★★★★★ 5/5</div>
+            <div class="review-text">
+              "Seguro, rápido y transparente. Recomendado 100%."
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Page -->
+      <div id="dashboardPage" class="dashboard">
+        <div class="section">
+          <h2 class="panel-title">MI CARTERA DE INVERSIÓN</h2>
+          <div class="portfolio-header">
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                font-size: 12px;
+              "
+            >
+              <div>
+                <div style="color: #008800; margin-bottom: 5px">
+                  SALDO INVERTIDO
+                </div>
+                <div
+                  style="color: #00dd00; font-size: 20px; font-weight: bold"
+                  id="totalInvested"
+                >
+                  $0
+                </div>
+              </div>
+              <div>
+                <div style="color: #008800; margin-bottom: 5px">
+                  GANANCIAS GENERADAS
+                </div>
+                <div
+                  style="color: #00dd00; font-size: 20px; font-weight: bold"
+                  id="totalEarnings"
+                >
+                  $0
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 20px" id="portfolioItems"></div>
+
+          <div class="deposit-form">
+            <h3 style="color: #00dd00; font-size: 12px; margin-bottom: 15px">
+              REALIZAR DEPÓSITO
+            </h3>
+            <div class="form-group">
+              <label>Cantidad a Invertir (COP)</label>
+              <input
+                type="number"
+                id="depositAmount"
+                placeholder="100000"
+                min="100000"
+              />
+            </div>
+            <div class="form-group">
+              <label>Método de Pago</label>
+              <select id="paymentMethod">
+                <option value="">Seleccionar...</option>
+                <option value="bitcoin">Bitcoin</option>
+                <option value="transfer">Transferencia Bancaria</option>
+                <option value="card">Tarjeta de Crédito</option>
+              </select>
+            </div>
+            <div id="depositMessage" class="message"></div>
+            <button
+              class="cta-button"
+              style="width: 100%; margin-top: 15px"
+              onclick="deposit()"
+            >
+              INVERTIR AHORA
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Footer -->
     <div class="footer">
-        <p style="margin-bottom: 10px;"><strong>GreenTrade Pro © 2026</strong></p>
-        <p>Bogotá, Colombia | info@greentrademx.com | +57 (1) 8000-TRADE</p>
-        <p style="margin-top: 10px; font-size: 9px;">Regulado por Superintendencia Financiera de Colombia | Inversión en criptomonedas conlleva riesgo</p>
+      <p style="margin-bottom: 10px"><strong>GreenTrade Pro © 2026</strong></p>
+      <p>Bogotá, Colombia | info@greentrademx.com | +57 (1) 8000-TRADE</p>
+      <p style="margin-top: 10px; font-size: 9px">
+        Regulado por Superintendencia Financiera de Colombia | Inversión en
+        criptomonedas conlleva riesgo
+      </p>
     </div>
 
     <script>
-        // User Authentication System
-        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
-        let users = JSON.parse(localStorage.getItem('users')) || [];
+      // User Authentication System
+      let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+      let users = JSON.parse(localStorage.getItem("users")) || [];
 
-        function updateUI() {
-            const loginBtn = document.getElementById('loginBtn');
-            const registerBtn = document.getElementById('registerBtn');
-            const logoutBtn = document.getElementById('logoutBtn');
-            const dashboardBtn = document.getElementById('dashboardBtn');
+      function updateUI() {
+        const loginBtn = document.getElementById("loginBtn");
+        const registerBtn = document.getElementById("registerBtn");
+        const logoutBtn = document.getElementById("logoutBtn");
+        const dashboardBtn = document.getElementById("dashboardBtn");
 
-            if (currentUser) {
-                loginBtn.style.display = 'none';
-                registerBtn.style.display = 'none';
-                logoutBtn.style.display = 'inline-block';
-                dashboardBtn.style.display = 'inline-block';
-            } else {
-                loginBtn.style.display = 'inline-block';
-                registerBtn.style.display = 'inline-block';
-                logoutBtn.style.display = 'none';
-                dashboardBtn.style.display = 'none';
-            }
+        if (currentUser) {
+          loginBtn.style.display = "none";
+          registerBtn.style.display = "none";
+          logoutBtn.style.display = "inline-block";
+          dashboardBtn.style.display = "inline-block";
+        } else {
+          loginBtn.style.display = "inline-block";
+          registerBtn.style.display = "inline-block";
+          logoutBtn.style.display = "none";
+          dashboardBtn.style.display = "none";
+        }
+      }
+
+      function toggleLoginModal() {
+        document.getElementById("loginModal").classList.toggle("active");
+      }
+
+      function toggleRegisterModal() {
+        document.getElementById("registerModal").classList.toggle("active");
+      }
+
+      function register() {
+        const name = document.getElementById("registerName").value;
+        const email = document.getElementById("registerEmail").value;
+        const password = document.getElementById("registerPassword").value;
+        const password2 = document.getElementById("registerPassword2").value;
+        const wallet = document.getElementById("registerWallet").value;
+
+        if (!name || !email || !password || !wallet) {
+          alert("Por favor completa todos los campos");
+          return;
         }
 
-        function toggleLoginModal() {
-            document.getElementById('loginModal').classList.toggle('active');
+        if (password !== password2) {
+          alert("Las contraseñas no coinciden");
+          return;
         }
 
-        function toggleRegisterModal() {
-            document.getElementById('registerModal').classList.toggle('active');
+        if (users.find((u) => u.email === email)) {
+          alert("Este email ya está registrado");
+          return;
         }
 
-        function register() {
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const password2 = document.getElementById('registerPassword2').value;
-            const wallet = document.getElementById('registerWallet').value;
+        const newUser = {
+          id: Date.now(),
+          name,
+          email,
+          password,
+          wallet,
+          invested: 0,
+          earnings: 0,
+          investments: [],
+        };
 
-            if (!name || !email || !password || !wallet) {
-                alert('Por favor completa todos los campos');
-                return;
-            }
+        users.push(newUser);
+        localStorage.setItem("users", JSON.stringify(users));
 
-            if (password !== password2) {
-                alert('Las contraseñas no coinciden');
-                return;
-            }
+        currentUser = newUser;
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
 
-            if (users.find(u => u.email === email)) {
-                alert('Este email ya está registrado');
-                return;
-            }
+        alert("¡Cuenta creada exitosamente!");
+        toggleRegisterModal();
+        updateUI();
+        document.getElementById("registerName").value = "";
+        document.getElementById("registerEmail").value = "";
+        document.getElementById("registerPassword").value = "";
+        document.getElementById("registerPassword2").value = "";
+        document.getElementById("registerWallet").value = "";
+      }
 
-            const newUser = {
-                id: Date.now(),
-                name,
-                email,
-                password,
-                wallet,
-                invested: 0,
-                earnings: 0,
-                investments: []
-            };
+      function login() {
+        const email = document.getElementById("loginEmail").value;
+        const password = document.getElementById("loginPassword").value;
 
-            users.push(newUser);
-            localStorage.setItem('users', JSON.stringify(users));
-            
-            currentUser = newUser;
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        const user = users.find(
+          (u) => u.email === email && u.password === password,
+        );
 
-            alert('¡Cuenta creada exitosamente!');
-            toggleRegisterModal();
-            updateUI();
-            document.getElementById('registerName').value = '';
-            document.getElementById('registerEmail').value = '';
-            document.getElementById('registerPassword').value = '';
-            document.getElementById('registerPassword2').value = '';
-            document.getElementById('registerWallet').value = '';
+        if (user) {
+          currentUser = user;
+          localStorage.setItem("currentUser", JSON.stringify(currentUser));
+          alert("¡Bienvenido " + user.name + "!");
+          toggleLoginModal();
+          updateUI();
+          document.getElementById("loginEmail").value = "";
+          document.getElementById("loginPassword").value = "";
+        } else {
+          alert("Email o contraseña incorrectos");
+        }
+      }
+
+      function logout() {
+        currentUser = null;
+        localStorage.setItem("currentUser", null);
+        showHome();
+        updateUI();
+      }
+
+      function showHome() {
+        document.getElementById("homePage").style.display = "block";
+        document.getElementById("dashboardPage").classList.remove("active");
+      }
+
+      function showDashboard() {
+        if (!currentUser) {
+          alert("Debes ingresar para ver tu cartera");
+          return;
+        }
+        document.getElementById("homePage").style.display = "none";
+        document.getElementById("dashboardPage").classList.add("active");
+        updatePortfolio();
+      }
+
+      function deposit() {
+        if (!currentUser) {
+          alert("Debes ingresar primero");
+          return;
         }
 
-        function login() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+        const amount = parseInt(document.getElementById("depositAmount").value);
+        const method = document.getElementById("paymentMethod").value;
+        const msgEl = document.getElementById("depositMessage");
 
-            const user = users.find(u => u.email === email && u.password === password);
-
-            if (user) {
-                currentUser = user;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                alert('¡Bienvenido ' + user.name + '!');
-                toggleLoginModal();
-                updateUI();
-                document.getElementById('loginEmail').value = '';
-                document.getElementById('loginPassword').value = '';
-            } else {
-                alert('Email o contraseña incorrectos');
-            }
+        if (!amount || amount < 100000) {
+          msgEl.textContent = "La inversión mínima es $100,000 COP";
+          msgEl.classList.add("error", "active");
+          return;
         }
 
-        function logout() {
-            currentUser = null;
-            localStorage.setItem('currentUser', null);
-            showHome();
-            updateUI();
+        if (!method) {
+          msgEl.textContent = "Selecciona un método de pago";
+          msgEl.classList.add("error", "active");
+          return;
         }
 
-        function showHome() {
-            document.getElementById('homePage').style.display = 'block';
-            document.getElementById('dashboardPage').classList.remove('active');
-        }
+        // Create investment
+        const investment = {
+          id: Date.now(),
+          amount,
+          method,
+          date: new Date().toLocaleDateString(),
+          startBalance: amount,
+          currentBalance: amount,
+        };
 
-        function showDashboard() {
-            if (!currentUser) {
-                alert('Debes ingresar para ver tu cartera');
-                return;
-            }
-            document.getElementById('homePage').style.display = 'none';
-            document.getElementById('dashboardPage').classList.add('active');
-            updatePortfolio();
-        }
+        currentUser.investments.push(investment);
+        currentUser.invested += amount;
 
-        function deposit() {
-            if (!currentUser) {
-                alert('Debes ingresar primero');
-                return;
-            }
+        // Update user in users array
+        const idx = users.findIndex((u) => u.id === currentUser.id);
+        users[idx] = currentUser;
 
-            const amount = parseInt(document.getElementById('depositAmount').value);
-            const method = document.getElementById('paymentMethod').value;
-            const msgEl = document.getElementById('depositMessage');
+        localStorage.setItem("users", JSON.stringify(users));
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
 
-            if (!amount || amount < 100000) {
-                msgEl.textContent = 'La inversión mínima es $100,000 COP';
-                msgEl.classList.add('error', 'active');
-                return;
-            }
+        msgEl.textContent =
+          "¡Inversión registrada! Tu dinero comienza a generar ganancias";
+        msgEl.classList.remove("error");
+        msgEl.classList.add("success", "active");
 
-            if (!method) {
-                msgEl.textContent = 'Selecciona un método de pago';
-                msgEl.classList.add('error', 'active');
-                return;
-            }
+        document.getElementById("depositAmount").value = "";
+        document.getElementById("paymentMethod").value = "";
 
-            // Create investment
-            const investment = {
-                id: Date.now(),
-                amount,
-                method,
-                date: new Date().toLocaleDateString(),
-                startBalance: amount,
-                currentBalance: amount
-            };
+        setTimeout(() => {
+          msgEl.classList.remove("success", "active");
+          updatePortfolio();
+        }, 3000);
+      }
 
-            currentUser.investments.push(investment);
-            currentUser.invested += amount;
-            
-            // Update user in users array
-            const idx = users.findIndex(u => u.id === currentUser.id);
-            users[idx] = currentUser;
-            
-            localStorage.setItem('users', JSON.stringify(users));
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      function updatePortfolio() {
+        if (!currentUser) return;
 
-            msgEl.textContent = '¡Inversión registrada! Tu dinero comienza a generar ganancias';
-            msgEl.classList.remove('error');
-            msgEl.classList.add('success', 'active');
-            
-            document.getElementById('depositAmount').value = '';
-            document.getElementById('paymentMethod').value = '';
+        let html = "";
+        let totalEarnings = 0;
 
-            setTimeout(() => {
-                msgEl.classList.remove('success', 'active');
-                updatePortfolio();
-            }, 3000);
-        }
+        currentUser.investments.forEach((inv) => {
+          // Calculate earnings (10% per week)
+          const weeksInvested = 1; // For demo
+          const earnings =
+            inv.startBalance * (Math.pow(1.1, weeksInvested) - 1);
+          totalEarnings += earnings;
+          const currentBalance = inv.startBalance + earnings;
 
-        function updatePortfolio() {
-            if (!currentUser) return;
-
-            let html = '';
-            let totalEarnings = 0;
-
-            currentUser.investments.forEach(inv => {
-                // Calculate earnings (10% per week)
-                const weeksInvested = 1; // For demo
-                const earnings = inv.startBalance * (Math.pow(1.10, weeksInvested) - 1);
-                totalEarnings += earnings;
-                const currentBalance = inv.startBalance + earnings;
-
-                html += `
+          html += `
                     <div class="portfolio-item">
                         <div class="portfolio-info">
-                            <h3>${inv.method === 'bitcoin' ? '₿ Bitcoin' : inv.method === 'transfer' ? '🏦 Transferencia' : '💳 Tarjeta'}</h3>
+                            <h3>${inv.method === "bitcoin" ? "₿ Bitcoin" : inv.method === "transfer" ? "🏦 Transferencia" : "💳 Tarjeta"}</h3>
                             <p>Invertido: ${inv.date}</p>
                         </div>
                         <div class="portfolio-amount">
@@ -1025,69 +1171,129 @@
                         </div>
                     </div>
                 `;
-            });
+        });
 
-            document.getElementById('portfolioItems').innerHTML = html || '<p style="color: #00aa00; font-size: 12px; text-align: center;">No tienes inversiones aún</p>';
-            document.getElementById('totalInvested').textContent = '$' + currentUser.invested.toLocaleString() + ' COP';
-            document.getElementById('totalEarnings').textContent = '$' + Math.floor(totalEarnings).toLocaleString() + ' COP';
+        document.getElementById("portfolioItems").innerHTML =
+          html ||
+          '<p style="color: #00aa00; font-size: 12px; text-align: center;">No tienes inversiones aún</p>';
+        document.getElementById("totalInvested").textContent =
+          "$" + currentUser.invested.toLocaleString() + " COP";
+        document.getElementById("totalEarnings").textContent =
+          "$" + Math.floor(totalEarnings).toLocaleString() + " COP";
+      }
+
+      function withdraw(investmentId) {
+        if (
+          confirm("¿Deseas retirar esta inversión con todas sus ganancias?")
+        ) {
+          const inv = currentUser.investments.find(
+            (i) => i.id === investmentId,
+          );
+          if (inv) {
+            const earnings = inv.startBalance * 0.1; // 10% weekly for demo
+            alert(
+              "Retiro de $" +
+                Math.floor(inv.startBalance + earnings).toLocaleString() +
+                " procesado a tu billetera " +
+                currentUser.wallet,
+            );
+
+            currentUser.investments = currentUser.investments.filter(
+              (i) => i.id !== investmentId,
+            );
+            const idx = users.findIndex((u) => u.id === currentUser.id);
+            users[idx] = currentUser;
+            localStorage.setItem("users", JSON.stringify(users));
+            localStorage.setItem("currentUser", JSON.stringify(currentUser));
+            updatePortfolio();
+          }
+        }
+      }
+
+      // Real-time price updates
+      function updatePrices() {
+        const prices = {
+          btc: {
+            element: "btc-price",
+            change: "btc-change",
+            min: 42000,
+            max: 45000,
+          },
+          eth: {
+            element: "eth-price",
+            change: "eth-change",
+            min: 2300,
+            max: 2600,
+          },
+          xrp: {
+            element: "xrp-price",
+            change: "xrp-change",
+            min: 2.0,
+            max: 2.3,
+          },
+          ltc: {
+            element: "ltc-price",
+            change: "ltc-change",
+            min: 190,
+            max: 200,
+          },
+          "usd-cop": {
+            element: "usd-cop",
+            change: "usd-cop-change",
+            min: 3900,
+            max: 4000,
+          },
+          "eur-usd": {
+            element: "eur-usd",
+            change: "eur-usd-change",
+            min: 1.08,
+            max: 1.1,
+          },
+          "gbp-usd": {
+            element: "gbp-usd",
+            change: "gbp-usd-change",
+            min: 1.25,
+            max: 1.28,
+          },
+        };
+
+        for (let [key, data] of Object.entries(prices)) {
+          const newPrice = Math.random() * (data.max - data.min) + data.min;
+          const priceEl = document.getElementById(data.element);
+          const oldPrice = parseFloat(
+            priceEl.textContent.replace("$", "").replace(",", ""),
+          );
+          const changePercent = (
+            ((newPrice - oldPrice) / oldPrice) *
+            100
+          ).toFixed(2);
+
+          priceEl.textContent =
+            "$" +
+            newPrice.toFixed(key.includes("usd") && key !== "usd-cop" ? 4 : 2);
+
+          const changeEl = document.getElementById(data.change);
+          if (changePercent > 0) {
+            changeEl.innerHTML = "▲ +" + changePercent + "%";
+            changeEl.className = "change-up";
+          } else {
+            changeEl.innerHTML = "▼ " + changePercent + "%";
+            changeEl.className = "change-down";
+          }
         }
 
-        function withdraw(investmentId) {
-            if (confirm('¿Deseas retirar esta inversión con todas sus ganancias?')) {
-                const inv = currentUser.investments.find(i => i.id === investmentId);
-                if (inv) {
-                    const earnings = inv.startBalance * 0.10; // 10% weekly for demo
-                    alert('Retiro de $' + Math.floor(inv.startBalance + earnings).toLocaleString() + ' procesado a tu billetera ' + currentUser.wallet);
-                    
-                    currentUser.investments = currentUser.investments.filter(i => i.id !== investmentId);
-                    const idx = users.findIndex(u => u.id === currentUser.id);
-                    users[idx] = currentUser;
-                    localStorage.setItem('users', JSON.stringify(users));
-                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                    updatePortfolio();
-                }
-            }
+        if (
+          currentUser &&
+          document.getElementById("dashboardPage").classList.contains("active")
+        ) {
+          updatePortfolio();
         }
+      }
 
-        // Real-time price updates
-        function updatePrices() {
-            const prices = {
-                'btc': { element: 'btc-price', change: 'btc-change', min: 42000, max: 45000 },
-                'eth': { element: 'eth-price', change: 'eth-change', min: 2300, max: 2600 },
-                'xrp': { element: 'xrp-price', change: 'xrp-change', min: 2.0, max: 2.3 },
-                'ltc': { element: 'ltc-price', change: 'ltc-change', min: 190, max: 200 },
-                'usd-cop': { element: 'usd-cop', change: 'usd-cop-change', min: 3900, max: 4000 },
-                'eur-usd': { element: 'eur-usd', change: 'eur-usd-change', min: 1.08, max: 1.10 },
-                'gbp-usd': { element: 'gbp-usd', change: 'gbp-usd-change', min: 1.25, max: 1.28 }
-            };
+      setInterval(updatePrices, 3000);
 
-            for (let [key, data] of Object.entries(prices)) {
-                const newPrice = Math.random() * (data.max - data.min) + data.min;
-                const priceEl = document.getElementById(data.element);
-                const oldPrice = parseFloat(priceEl.textContent.replace('$', '').replace(',', ''));
-                const changePercent = (((newPrice - oldPrice) / oldPrice) * 100).toFixed(2);
-                
-                priceEl.textContent = '$' + newPrice.toFixed(key.includes('usd') && key !== 'usd-cop' ? 4 : 2);
-                
-                const changeEl = document.getElementById(data.change);
-                if (changePercent > 0) {
-                    changeEl.innerHTML = '▲ +' + changePercent + '%';
-                    changeEl.className = 'change-up';
-                } else {
-                    changeEl.innerHTML = '▼ ' + changePercent + '%';
-                    changeEl.className = 'change-down';
-                }
-            }
-
-            if (currentUser && document.getElementById('dashboardPage').classList.contains('active')) {
-                updatePortfolio();
-            }
-        }
-
-        setInterval(updatePrices, 3000);
-
-        // Initialize
-        updateUI();
+      // Initialize
+      updateUI();
     </script>
-</body>
+  </body>
 </html>
