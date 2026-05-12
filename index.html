@@ -934,8 +934,8 @@
               <select id="paymentMethod" onchange="updatePaymentInfo()">
                 <option value="">Seleccionar...</option>
                 <option value="bold">💳 Bold - Tarjeta Crédito/Débito</option>
-                <option value="ethereum">Ξ Ethereum</option>
-                <option value="usdt">₮ USDT (Tron)</option>
+                <option value="ethereum">Ξ ETH (Red TRC20)</option>
+                <option value="usdt">₮ USDT (Red Binance)</option>
               </select>
             </div>
 
@@ -979,7 +979,7 @@
                 <div
                   style="color: #00dd00; margin-bottom: 10px; font-weight: bold"
                 >
-                  Transferencia Ethereum
+                  Transferencia ETH (Red TRC20)
                 </div>
                 <div style="color: #00aa00; margin-bottom: 8px">
                   Dirección de Billetera:
@@ -1011,12 +1011,12 @@
                 </button>
               </div>
 
-              <!-- USDT (Tron) -->
+              <!-- USDT (Binance) -->
               <div id="usdtInfo" style="display: none">
                 <div
                   style="color: #00dd00; margin-bottom: 10px; font-weight: bold"
                 >
-                  Transferencia USDT (Red Tron)
+                  Transferencia USDT (Red Binance Smart Chain)
                 </div>
                 <div style="color: #00aa00; margin-bottom: 8px">
                   Dirección de Billetera:
@@ -1038,14 +1038,15 @@
                 <button
                   class="cta-button"
                   onclick="
-                    copyToClipboard('0x47da989277ee7efe3cfb2f481ba16f8b31483400')
+                    copyToClipboard(
+                      '0x47da989277ee7efe3cfb2f481ba16f8b31483400',
+                    )
                   "
                   style="width: 100%"
                 >
                   📋 COPIAR DIRECCIÓN
                 </button>
               </div>
-
             </div>
 
             <div id="depositMessage" class="message"></div>
@@ -1354,10 +1355,10 @@
             methodName = "Bitcoin";
           } else if (inv.method === "ethereum") {
             methodIcon = "Ξ";
-            methodName = "Ethereum";
+            methodName = "ETH (Red TRC20)";
           } else if (inv.method === "usdt") {
             methodIcon = "₮";
-            methodName = "USDT (Tron)";
+            methodName = "USDT (Red Binance)";
           } else if (inv.method === "transfer") {
             methodIcon = "🏦";
             methodName = "Transferencia Bancaria";
