@@ -934,9 +934,27 @@
               <select id="paymentMethod" onchange="updatePaymentInfo()">
                 <option value="">Seleccionar...</option>
                 <option value="bold">💳 Bold - Tarjeta Crédito/Débito</option>
-                <option value="ethereum">Ξ ETH (Red TRC20)</option>
-                <option value="usdt">₮ USDT (Red Binance)</option>
+                <option value="crypto">🪙 Criptomonedas</option>
               </select>
+            </div>
+
+            <!-- Selección de Criptomoneda y Red -->
+            <div id="cryptoSelector" style="display: none">
+              <div class="form-group">
+                <label>Activo</label>
+                <select id="cryptoAsset" onchange="updateNetworks()">
+                  <option value="">Seleccionar...</option>
+                  <option value="eth">Ξ Ethereum (ETH)</option>
+                  <option value="usdt">₮ Tether (USDT)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Red Blockchain</label>
+                <select id="cryptoNetwork" onchange="updatePaymentInfo()">
+                  <option value="">Seleccionar red primero...</option>
+                </select>
+              </div>
             </div>
 
             <!-- Información de pago según método seleccionado -->
@@ -974,12 +992,13 @@
                 </p>
               </div>
 
-              <!-- Ethereum -->
-              <div id="ethereumInfo" style="display: none">
+              <!-- Crypto Info Dinámico -->
+              <div id="cryptoInfo" style="display: none">
                 <div
                   style="color: #00dd00; margin-bottom: 10px; font-weight: bold"
+                  id="cryptoTitle"
                 >
-                  Transferencia ETH (Red TRC20)
+                  Transferencia Criptomoneda
                 </div>
                 <div style="color: #00aa00; margin-bottom: 8px">
                   Dirección de Billetera:
@@ -995,53 +1014,13 @@
                     font-size: 10px;
                     color: #00dd00;
                   "
+                  id="cryptoAddress"
                 >
-                  0x47da989277ee7efe3cfb2f481ba16f8b31483400
+                  Selecciona un activo y red
                 </div>
                 <button
                   class="cta-button"
-                  onclick="
-                    copyToClipboard(
-                      '0x47da989277ee7efe3cfb2f481ba16f8b31483400',
-                    )
-                  "
-                  style="width: 100%"
-                >
-                  📋 COPIAR DIRECCIÓN
-                </button>
-              </div>
-
-              <!-- USDT (Binance) -->
-              <div id="usdtInfo" style="display: none">
-                <div
-                  style="color: #00dd00; margin-bottom: 10px; font-weight: bold"
-                >
-                  Transferencia USDT (Red Binance Smart Chain)
-                </div>
-                <div style="color: #00aa00; margin-bottom: 8px">
-                  Dirección de Billetera:
-                </div>
-                <div
-                  style="
-                    background: #000000;
-                    padding: 8px;
-                    border: 1px solid #00aa00;
-                    margin-bottom: 10px;
-                    word-break: break-all;
-                    font-family: monospace;
-                    font-size: 10px;
-                    color: #00dd00;
-                  "
-                >
-                  0x47da989277ee7efe3cfb2f481ba16f8b31483400
-                </div>
-                <button
-                  class="cta-button"
-                  onclick="
-                    copyToClipboard(
-                      '0x47da989277ee7efe3cfb2f481ba16f8b31483400',
-                    )
-                  "
+                  onclick="copiarDireccionCrypto()"
                   style="width: 100%"
                 >
                   📋 COPIAR DIRECCIÓN
@@ -1230,63 +1209,160 @@
           return;
         }
 
-        // Create investment for crypto/transfer
-        const investment = {
-          id: Date.now(),
-          amount,
-          method,
-          date: new Date().toLocaleDateString(),
-          startBalance: amount,
-          currentBalance: amount,
-        };
+        // Para crypto
+        if (method === "crypto") {
+          const asset = document.getElementById("cryptoAsset").value;
+          const network = document.getElementById("cryptoNetwork").value;
 
-        currentUser.investments.push(investment);
-        currentUser.invested += amount;
+          if (!asset || !network) {
+            msgEl.textContent = "Selecciona un activo y una red";
+            msgEl.classList.add("error", "active");
+            return;
+          }
 
-        // Update user in users array
-        const idx = users.findIndex((u) => u.id === currentUser.id);
-        users[idx] = currentUser;
+          const methodLabel = `${asset.toUpperCase()}-${network}`;
+          const investment = {
+            id: Date.now(),
+            amount,
+            method: methodLabel,
+            date: new Date().toLocaleDateString(),
+            startBalance: amount,
+            currentBalance: amount,
+          };
 
-        localStorage.setItem("users", JSON.stringify(users));
-        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+          currentUser.investments.push(investment);
+          currentUser.invested += amount;
 
-        msgEl.textContent =
-          "¡Inversión registrada! Confirma tu transferencia a la dirección mostrada. Una vez confirmada, tu dinero generará ganancias.";
-        msgEl.classList.remove("error");
-        msgEl.classList.add("success", "active");
+          const idx = users.findIndex((u) => u.id === currentUser.id);
+          users[idx] = currentUser;
 
-        document.getElementById("depositAmount").value = "";
-        document.getElementById("paymentMethod").value = "";
-        document.getElementById("paymentInfo").style.display = "none";
+          localStorage.setItem("users", JSON.stringify(users));
+          localStorage.setItem("currentUser", JSON.stringify(currentUser));
 
-        setTimeout(() => {
-          msgEl.classList.remove("success", "active");
-          updatePortfolio();
-        }, 5000);
-      }
+          msgEl.textContent =
+            "¡Inversión registrada! Confirma tu transferencia. Una vez confirmada, tu dinero generará ganancias.";
+          msgEl.classList.remove("error");
+          msgEl.classList.add("success", "active");
+
+          document.getElementById("depositAmount").value = "";
+          document.getElementById("paymentMethod").value = "";
+          document.getElementById("cryptoAsset").value = "";
+          document.getElementById("cryptoNetwork").value = "";
+          document.getElementById("cryptoSelector").style.display = "none";
+          document.getElementById("cryptoInfo").style.display = "none";
+          document.getElementById("paymentInfo").style.display = "none";
+
+          setTimeout(() => {
+            msgEl.classList.remove("success", "active");
+            updatePortfolio();
+          }, 5000);
+          return;
+        }
+
+      // Direcciones de criptomonedas por asset y red
+      const cryptoAddresses = {
+        eth: {
+          binance: "0x47da989277ee7efe3cfb2f481ba16f8b31483400",
+          ethereum: "0x47da989277ee7efe3cfb2f481ba16f8b31483400",
+        },
+        usdt: {
+          ethereum: "0x47da989277ee7efe3cfb2f481ba16f8b31483400",
+          binance: "0x47da989277ee7efe3cfb2f481ba16f8b31483400",
+        },
+      };
+
+      const networkNames = {
+        eth: { binance: "Binance Smart Chain", ethereum: "Red Ethereum" },
+        usdt: { ethereum: "Red Ethereum", binance: "Red Binance Smart Chain" },
+      };
 
       // Nueva función para mostrar/ocultar información de pago
       function updatePaymentInfo() {
         const method = document.getElementById("paymentMethod").value;
         const paymentInfo = document.getElementById("paymentInfo");
         const boldInfo = document.getElementById("boldInfo");
-        const ethereumInfo = document.getElementById("ethereumInfo");
-        const usdtInfo = document.getElementById("usdtInfo");
+        const cryptoSelector = document.getElementById("cryptoSelector");
+        const cryptoInfo = document.getElementById("cryptoInfo");
 
         // Ocultar todos
         boldInfo.style.display = "none";
-        ethereumInfo.style.display = "none";
-        usdtInfo.style.display = "none";
+        cryptoSelector.style.display = "none";
+        cryptoInfo.style.display = "none";
 
-        if (method) {
+        if (method === "bold") {
           paymentInfo.style.display = "block";
-
-          // Mostrar el específico
-          if (method === "bold") boldInfo.style.display = "block";
-          else if (method === "ethereum") ethereumInfo.style.display = "block";
-          else if (method === "usdt") usdtInfo.style.display = "block";
+          boldInfo.style.display = "block";
+        } else if (method === "crypto") {
+          paymentInfo.style.display = "block";
+          cryptoSelector.style.display = "block";
+          updateNetworks();
         } else {
           paymentInfo.style.display = "none";
+        }
+      }
+
+      // Función para actualizar redes disponibles según el asset
+      function updateNetworks() {
+        const asset = document.getElementById("cryptoAsset").value;
+        const networkSelect = document.getElementById("cryptoNetwork");
+
+        // Limpiar opciones
+        networkSelect.innerHTML =
+          '<option value="">Seleccionar red...</option>';
+
+        if (asset === "eth") {
+          networkSelect.innerHTML += `
+            <option value="binance">Binance Smart Chain</option>
+            <option value="ethereum">Red Ethereum</option>
+          `;
+        } else if (asset === "usdt") {
+          networkSelect.innerHTML += `
+            <option value="ethereum">Red Ethereum</option>
+            <option value="binance">Red Binance Smart Chain</option>
+          `;
+        }
+
+        // Resetear la dirección
+        document.getElementById("cryptoAddress").textContent =
+          "Selecciona una red";
+        document.getElementById("cryptoTitle").textContent =
+          "Transferencia Criptomoneda";
+
+        updateCryptoDisplay();
+      }
+
+      // Función para actualizar la dirección mostrada
+      function updateCryptoDisplay() {
+        const asset = document.getElementById("cryptoAsset").value;
+        const network = document.getElementById("cryptoNetwork").value;
+        const cryptoInfo = document.getElementById("cryptoInfo");
+
+        if (asset && network) {
+          const address = cryptoAddresses[asset][network];
+          const networkName = networkNames[asset][network];
+          const assetName =
+            asset === "eth" ? "ETH (Ethereum)" : "USDT (Tether)";
+
+          document.getElementById("cryptoAddress").textContent = address;
+          document.getElementById("cryptoTitle").textContent =
+            `Transferencia ${assetName} - ${networkName}`;
+          cryptoInfo.style.display = "block";
+        } else {
+          cryptoInfo.style.display = "none";
+        }
+      }
+
+      // Función para copiar dirección de crypto
+      function copiarDireccionCrypto() {
+        const address = document.getElementById("cryptoAddress").textContent;
+        if (
+          address &&
+          address !== "Selecciona un activo y red" &&
+          address !== "Selecciona una red"
+        ) {
+          copyToClipboard(address);
+        } else {
+          alert("Por favor selecciona un activo y una red");
         }
       }
 
@@ -1350,7 +1426,17 @@
           let methodName = "";
           let methodIcon = "";
 
-          if (inv.method === "bitcoin") {
+          // Verificar si es formato crypto (ej: ETH-binance)
+          if (inv.method.includes("-")) {
+            const [asset, network] = inv.method.split("-");
+            if (asset === "ETH") {
+              methodIcon = "Ξ";
+              methodName = `ETH (${network === "binance" ? "Red Binance" : "Red Ethereum"})`;
+            } else if (asset === "USDT") {
+              methodIcon = "₮";
+              methodName = `USDT (${network === "binance" ? "Red Binance" : "Red Ethereum"})`;
+            }
+          } else if (inv.method === "bitcoin") {
             methodIcon = "₿";
             methodName = "Bitcoin";
           } else if (inv.method === "ethereum") {
