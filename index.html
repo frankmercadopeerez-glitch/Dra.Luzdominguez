@@ -931,18 +931,82 @@
             </div>
             <div class="form-group">
               <label>Método de Pago</label>
-              <select id="paymentMethod">
+              <select id="paymentMethod" onchange="updatePaymentInfo()">
                 <option value="">Seleccionar...</option>
-                <option value="bitcoin">Bitcoin</option>
-                <option value="transfer">Transferencia Bancaria</option>
-                <option value="card">Tarjeta de Crédito</option>
+                <option value="bold">💳 Bold - Tarjeta Crédito/Débito</option>
+                <option value="bitcoin">₿ Bitcoin</option>
+                <option value="ethereum">Ξ Ethereum</option>
+                <option value="usdt">₮ USDT (Tron)</option>
+                <option value="transfer">🏦 Transferencia Bancaria</option>
               </select>
             </div>
+            
+            <!-- Información de pago según método seleccionado -->
+            <div id="paymentInfo" style="display: none; background: #0a0a0a; border: 1px solid #008800; padding: 12px; margin: 15px 0; font-size: 11px;">
+              <!-- Bold Payment -->
+              <div id="boldInfo" style="display: none;">
+                <div style="color: #00dd00; margin-bottom: 10px; font-weight: bold;">Pago Seguro con Bold</div>
+                <p style="color: #00aa00; margin-bottom: 10px;">Haz clic en el botón de abajo para procesar tu pago de forma segura con Bold:</p>
+                <button class="cta-button" onclick="openBoldCheckout()" style="width: 100%; background: #001a00;">
+                  🔐 PAGAR CON BOLD
+                </button>
+                <p style="color: #008800; font-size: 10px; margin-top: 10px;">Serás redirigido al portal seguro de Bold</p>
+              </div>
+              
+              <!-- Bitcoin -->
+              <div id="bitcoinInfo" style="display: none;">
+                <div style="color: #00dd00; margin-bottom: 10px; font-weight: bold;">Transferencia Bitcoin</div>
+                <div style="color: #00aa00; margin-bottom: 8px;">Dirección de Billetera:</div>
+                <div style="background: #000000; padding: 8px; border: 1px solid #00aa00; margin-bottom: 10px; word-break: break-all; font-family: monospace; font-size: 10px; color: #00dd00;">
+                  3J98t1WpEZ73CNmYviecrnyiWrnqRhWNLy
+                </div>
+                <button class="cta-button" onclick="copyToClipboard('3J98t1WpEZ73CNmYviecrnyiWrnqRhWNLy')" style="width: 100%;">
+                  📋 COPIAR DIRECCIÓN
+                </button>
+              </div>
+              
+              <!-- Ethereum -->
+              <div id="ethereumInfo" style="display: none;">
+                <div style="color: #00dd00; margin-bottom: 10px; font-weight: bold;">Transferencia Ethereum</div>
+                <div style="color: #00aa00; margin-bottom: 8px;">Dirección de Billetera:</div>
+                <div style="background: #000000; padding: 8px; border: 1px solid #00aa00; margin-bottom: 10px; word-break: break-all; font-family: monospace; font-size: 10px; color: #00dd00;">
+                  0x742d35Cc6634C0532925a3b844Bc9e7595f2bEb9
+                </div>
+                <button class="cta-button" onclick="copyToClipboard('0x742d35Cc6634C0532925a3b844Bc9e7595f2bEb9')" style="width: 100%;">
+                  📋 COPIAR DIRECCIÓN
+                </button>
+              </div>
+              
+              <!-- USDT (Tron) -->
+              <div id="usdtInfo" style="display: none;">
+                <div style="color: #00dd00; margin-bottom: 10px; font-weight: bold;">Transferencia USDT (Red Tron)</div>
+                <div style="color: #00aa00; margin-bottom: 8px;">Dirección de Billetera:</div>
+                <div style="background: #000000; padding: 8px; border: 1px solid #00aa00; margin-bottom: 10px; word-break: break-all; font-family: monospace; font-size: 10px; color: #00dd00;">
+                  TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t
+                </div>
+                <button class="cta-button" onclick="copyToClipboard('TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t')" style="width: 100%;">
+                  📋 COPIAR DIRECCIÓN
+                </button>
+              </div>
+              
+              <!-- Transferencia Bancaria -->
+              <div id="transferInfo" style="display: none;">
+                <div style="color: #00dd00; margin-bottom: 10px; font-weight: bold;">Datos Bancarios</div>
+                <div style="color: #00aa00; margin-bottom: 5px;">Banco: Banco de Bogotá</div>
+                <div style="color: #00aa00; margin-bottom: 5px;">Tipo Cuenta: Corriente</div>
+                <div style="color: #00aa00; margin-bottom: 5px;">Número: 2561234567</div>
+                <div style="color: #00aa00; margin-bottom: 5px;">Titulario: GreenTrade Pro SAS</div>
+                <div style="color: #00aa00; margin-bottom: 10px;">NIT: 900.123.456-7</div>
+                <p style="color: #008800; font-size: 10px;">Por favor incluye tu email como referencia</p>
+              </div>
+            </div>
+            
             <div id="depositMessage" class="message"></div>
             <button
               class="cta-button"
               style="width: 100%; margin-top: 15px"
               onclick="deposit()"
+              id="depositBtn"
             >
               INVERTIR AHORA
             </button>
@@ -1107,7 +1171,18 @@
           return;
         }
 
-        // Create investment
+        // Para Bold, redirigir al checkout
+        if (method === "bold") {
+          msgEl.classList.remove("error");
+          msgEl.textContent = "Redirigiendo a Bold...";
+          msgEl.classList.add("success", "active");
+          setTimeout(() => {
+            openBoldCheckout(amount);
+          }, 1000);
+          return;
+        }
+
+        // Create investment for crypto/transfer
         const investment = {
           id: Date.now(),
           amount,
@@ -1128,17 +1203,91 @@
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
 
         msgEl.textContent =
-          "¡Inversión registrada! Tu dinero comienza a generar ganancias";
+          "¡Inversión registrada! Confirma tu transferencia a la dirección mostrada. Una vez confirmada, tu dinero generará ganancias.";
         msgEl.classList.remove("error");
         msgEl.classList.add("success", "active");
 
         document.getElementById("depositAmount").value = "";
         document.getElementById("paymentMethod").value = "";
+        document.getElementById("paymentInfo").style.display = "none";
 
         setTimeout(() => {
           msgEl.classList.remove("success", "active");
           updatePortfolio();
-        }, 3000);
+        }, 5000);
+      }
+
+      // Nueva función para mostrar/ocultar información de pago
+      function updatePaymentInfo() {
+        const method = document.getElementById("paymentMethod").value;
+        const paymentInfo = document.getElementById("paymentInfo");
+        const boldInfo = document.getElementById("boldInfo");
+        const bitcoinInfo = document.getElementById("bitcoinInfo");
+        const ethereumInfo = document.getElementById("ethereumInfo");
+        const usdtInfo = document.getElementById("usdtInfo");
+        const transferInfo = document.getElementById("transferInfo");
+
+        // Ocultar todos
+        boldInfo.style.display = "none";
+        bitcoinInfo.style.display = "none";
+        ethereumInfo.style.display = "none";
+        usdtInfo.style.display = "none";
+        transferInfo.style.display = "none";
+
+        if (method) {
+          paymentInfo.style.display = "block";
+
+          // Mostrar el específico
+          if (method === "bold") boldInfo.style.display = "block";
+          else if (method === "bitcoin") bitcoinInfo.style.display = "block";
+          else if (method === "ethereum") ethereumInfo.style.display = "block";
+          else if (method === "usdt") usdtInfo.style.display = "block";
+          else if (method === "transfer") transferInfo.style.display = "block";
+        } else {
+          paymentInfo.style.display = "none";
+        }
+      }
+
+      // Función para abrir Bold checkout
+      function openBoldCheckout(amount) {
+        // Nota: Necesitarás reemplazar esto con tu ID de comerciante de Bold
+        // Esta es una URL de ejemplo de Bold
+        const boldCheckoutUrl =
+          "https://checkout.bold.com?merchant_id=YOUR_BOLD_ID&amount=" +
+          amount +
+          "&currency=COP&user_email=" +
+          encodeURIComponent(currentUser.email) +
+          "&reference=" +
+          currentUser.id;
+
+        // Crear investmentantes de redirigir
+        const investment = {
+          id: Date.now(),
+          amount: amount,
+          method: "bold",
+          date: new Date().toLocaleDateString(),
+          startBalance: amount,
+          currentBalance: amount,
+          status: "pending_payment",
+        };
+
+        currentUser.investments.push(investment);
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+        // Abrir Bold en nueva ventana
+        window.open(boldCheckoutUrl, "BoldCheckout", "width=800,height=600");
+      }
+
+      // Función para copiar al portapapeles
+      function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(
+          function () {
+            alert("✓ Dirección copiada al portapapeles");
+          },
+          function (err) {
+            alert("Error al copiar: " + err);
+          },
+        );
       }
 
       function updatePortfolio() {
@@ -1155,10 +1304,36 @@
           totalEarnings += earnings;
           const currentBalance = inv.startBalance + earnings;
 
+          // Determinar icono y nombre del método
+          let methodName = "";
+          let methodIcon = "";
+          
+          if (inv.method === "bitcoin") {
+            methodIcon = "₿";
+            methodName = "Bitcoin";
+          } else if (inv.method === "ethereum") {
+            methodIcon = "Ξ";
+            methodName = "Ethereum";
+          } else if (inv.method === "usdt") {
+            methodIcon = "₮";
+            methodName = "USDT (Tron)";
+          } else if (inv.method === "transfer") {
+            methodIcon = "🏦";
+            methodName = "Transferencia Bancaria";
+          } else if (inv.method === "bold") {
+            methodIcon = "💳";
+            methodName = "Bold";
+          } else if (inv.method === "card") {
+            methodIcon = "💳";
+            methodName = "Tarjeta";
+          }
+
+          const statusText = inv.status === "pending_payment" ? " (Pago Pendiente)" : "";
+
           html += `
                     <div class="portfolio-item">
                         <div class="portfolio-info">
-                            <h3>${inv.method === "bitcoin" ? "₿ Bitcoin" : inv.method === "transfer" ? "🏦 Transferencia" : "💳 Tarjeta"}</h3>
+                            <h3>${methodIcon} ${methodName}${statusText}</h3>
                             <p>Invertido: ${inv.date}</p>
                         </div>
                         <div class="portfolio-amount">
