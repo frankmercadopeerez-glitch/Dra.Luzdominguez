@@ -648,7 +648,36 @@
           >
             MI CARTERA
           </button>
+          <button
+            onclick="toggleAdminLogin()"
+            id="adminBtn"
+            style="display: inline-block"
+          >
+            ⚙️ ADMIN
+          </button>
+          <button
+            onclick="logoutAdmin()"
+            id="adminLogoutBtn"
+            style="display: none"
+          >
+            SALIR ADMIN
+          </button>
         </nav>
+      </div>
+
+      <!-- Admin Login Modal -->
+      <div class="modal" id="adminLoginModal">
+        <div class="modal-content">
+          <div class="modal-title">▶ PANEL ADMINISTRADOR</div>
+          <div class="form-group">
+            <label>Contraseña Admin</label>
+            <input type="password" id="adminPassword" placeholder="••••••••" />
+          </div>
+          <div class="form-buttons">
+            <button onclick="adminLogin()">ENTRAR</button>
+            <button onclick="toggleAdminLogin()">CANCELAR</button>
+          </div>
+        </div>
       </div>
 
       <!-- Login Modal -->
@@ -1040,9 +1069,52 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Footer -->
+      <!-- Admin Panel -->
+      <div id="adminPanel" class="dashboard" style="display: none">
+        <div class="section">
+          <h2 class="panel-title">📊 PANEL ADMINISTRADOR</h2>
+
+          <!-- Stats Generales -->
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-label">Total Usuarios</div>
+              <div class="stat-value" id="totalUsers">0</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Total Invertido</div>
+              <div class="stat-value" id="totalInvestedAdmin">$0</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Transacciones</div>
+              <div class="stat-value" id="totalTransactions">0</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Capital Activo</div>
+              <div class="stat-value" id="totalCapital">$0</div>
+            </div>
+          </div>
+
+          <!-- Precios Cripto en Tiempo Real -->
+          <div class="panel" style="margin-top: 20px">
+            <div class="panel-title">💹 PRECIOS EN TIEMPO REAL (CoinGecko)</div>
+            <div class="market-ticker" id="adminPrices"></div>
+          </div>
+
+          <!-- Usuarios y Transacciones -->
+          <div class="panel" style="margin-top: 20px">
+            <div class="panel-title">👥 USUARIOS Y TRANSACCIONES</div>
+            <div id="adminUsersList" style="max-height: 500px; overflow-y: auto"></div>
+          </div>
+
+          <!-- Log de Transacciones -->
+          <div class="panel" style="margin-top: 20px">
+            <div class="panel-title">📝 HISTORIAL DE TRANSACCIONES</div>
+            <div id="adminTransactionLog" style="font-size: 10px; max-height: 400px; overflow-y: auto"></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="footer">
       <p style="margin-bottom: 10px"><strong>GreenTrade Pro © 2026</strong></p>
       <p>Bogotá, Colombia | info@greentrademx.com | +57 (1) 8000-TRADE</p>
@@ -1595,6 +1667,187 @@
       }
 
       setInterval(updatePrices, 3000);
+
+      // ===== ADMIN PANEL =====
+      const ADMIN_PASSWORD = "Successlife1";
+      let isAdmin = false;
+
+      function toggleAdminLogin() {
+        document.getElementById("adminLoginModal").classList.toggle("active");
+      }
+
+      function adminLogin() {
+        const password = document.getElementById("adminPassword").value;
+        if (password === ADMIN_PASSWORD) {
+          isAdmin = true;
+          document.getElementById("adminPassword").value = "";
+          toggleAdminLogin();
+          document.getElementById("adminBtn").style.display = "none";
+          document.getElementById("adminLogoutBtn").style.display = "inline-block";
+          showAdminPanel();
+        } else {
+          alert("❌ Contraseña incorrecta");
+          document.getElementById("adminPassword").value = "";
+        }
+      }
+
+      function logoutAdmin() {
+        isAdmin = false;
+        document.getElementById("adminBtn").style.display = "inline-block";
+        document.getElementById("adminLogoutBtn").style.display = "none";
+        document.getElementById("adminPanel").style.display = "none";
+        document.getElementById("homePage").style.display = "block";
+      }
+
+      function showAdminPanel() {
+        if (!isAdmin) {
+          alert("Acceso denegado");
+          return;
+        }
+        document.getElementById("homePage").style.display = "none";
+        document.getElementById("dashboardPage").classList.remove("active");
+        document.getElementById("adminPanel").style.display = "block";
+        updateAdminDashboard();
+      }
+
+      // Obtener precios reales de CoinGecko
+      async function fetchCryptoPrices() {
+        try {
+          const response = await fetch(
+            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usd,cop&include_24hr_change=true"
+          );
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.log("Error fetching prices:", error);
+          return null;
+        }
+      }
+
+      // Actualizar dashboard admin
+      async function updateAdminDashboard() {
+        // Stats generales
+        let totalInvestedAmount = 0;
+        let totalTransactionsCount = 0;
+
+        users.forEach((user) => {
+          if (user.investments) {
+            totalInvestedAmount += user.invested || 0;
+            totalTransactionsCount += user.investments.length;
+          }
+        });
+
+        document.getElementById("totalUsers").textContent = users.length;
+        document.getElementById("totalInvestedAdmin").textContent =
+          "$" + totalInvestedAmount.toLocaleString() + " COP";
+        document.getElementById("totalTransactions").textContent =
+          totalTransactionsCount;
+        document.getElementById("totalCapital").textContent =
+          "$" + (totalInvestedAmount * 1.1).toLocaleString() + " COP";
+
+        // Precios cripto
+        const prices = await fetchCryptoPrices();
+        if (prices) {
+          const pricesHtml = `
+            <div class="ticker-item">
+              <div class="ticker-label">▶ BITCOIN</div>
+              <div class="ticker-price">$${prices.bitcoin.usd.toLocaleString("en-US", { maximumFractionDigits: 0 })}</div>
+              <div class="ticker-change">
+                <span class="${prices.bitcoin.usd_24h_change > 0 ? "change-up" : "change-down"}">
+                  ${prices.bitcoin.usd_24h_change > 0 ? "▲" : "▼"} ${Math.abs(prices.bitcoin.usd_24h_change).toFixed(2)}%
+                </span>
+              </div>
+              <div style="font-size: 9px; color: #008800; margin-top: 5px">
+                COP: $${prices.bitcoin.cop.toLocaleString("es-CO", { maximumFractionDigits: 0 })}
+              </div>
+            </div>
+            <div class="ticker-item">
+              <div class="ticker-label">▶ ETHEREUM</div>
+              <div class="ticker-price">$${prices.ethereum.usd.toLocaleString("en-US", { maximumFractionDigits: 0 })}</div>
+              <div class="ticker-change">
+                <span class="${prices.ethereum.usd_24h_change > 0 ? "change-up" : "change-down"}">
+                  ${prices.ethereum.usd_24h_change > 0 ? "▲" : "▼"} ${Math.abs(prices.ethereum.usd_24h_change).toFixed(2)}%
+                </span>
+              </div>
+              <div style="font-size: 9px; color: #008800; margin-top: 5px">
+                COP: $${prices.ethereum.cop.toLocaleString("es-CO", { maximumFractionDigits: 0 })}
+              </div>
+            </div>
+            <div class="ticker-item">
+              <div class="ticker-label">▶ USDT</div>
+              <div class="ticker-price">$${prices.tether.usd.toLocaleString("en-US", { maximumFractionDigits: 2 })}</div>
+              <div class="ticker-change">
+                <span class="${prices.tether.usd_24h_change > 0 ? "change-up" : "change-down"}">
+                  ${prices.tether.usd_24h_change > 0 ? "▲" : "▼"} ${Math.abs(prices.tether.usd_24h_change).toFixed(2)}%
+                </span>
+              </div>
+              <div style="font-size: 9px; color: #008800; margin-top: 5px">
+                COP: $${prices.tether.cop.toLocaleString("es-CO", { maximumFractionDigits: 2 })}
+              </div>
+            </div>
+          `;
+          document.getElementById("adminPrices").innerHTML = pricesHtml;
+        }
+
+        // Lista de usuarios
+        let usersHtml = "";
+        users.forEach((user, idx) => {
+          const totalInv =
+            user.investments.reduce((sum, inv) => sum + inv.amount, 0) || 0;
+          usersHtml += `
+            <div class="article-card" style="margin-bottom: 15px">
+              <div class="article-title">${idx + 1}. ${user.name} (ID: ${user.id})</div>
+              <div class="article-date">Email: ${user.email}</div>
+              <div style="color: #00aa00; font-size: 11px; margin: 8px 0">
+                💰 Invertido: $${totalInv.toLocaleString()} COP<br>
+                📊 Transacciones: ${user.investments.length}<br>
+                🔐 Billetera: ${user.wallet}<br>
+                📅 Registrado: ${new Date(user.id).toLocaleDateString()}
+              </div>
+              ${user.investments.length > 0 ? `
+                <div style="margin-top: 10px; border-top: 1px solid #008800; padding-top: 10px">
+                  <div style="color: #00dd00; font-size: 10px; font-weight: bold; margin-bottom: 5px">Inversiones:</div>
+                  ${user.investments
+                    .map(
+                      (inv) => `
+                    <div style="color: #00aa00; font-size: 10px; margin: 3px 0">
+                      • ${inv.method.toUpperCase()} - $${inv.amount.toLocaleString()} COP - ${inv.date}
+                    </div>
+                  `
+                    )
+                    .join("")}
+                </div>
+              ` : ""}
+            </div>
+          `;
+        });
+        document.getElementById("adminUsersList").innerHTML =
+          usersHtml || '<p style="color: #00aa00">Sin usuarios registrados</p>';
+
+        // Log de transacciones
+        let logHtml = '<div style="color: #00aa00">';
+        users.forEach((user) => {
+          user.investments.forEach((inv) => {
+            logHtml += `
+              <div style="border-bottom: 1px solid #008800; padding: 8px 0">
+                <strong style="color: #00dd00">${user.name}</strong> (${user.email})<br>
+                💰 ${inv.method.toUpperCase()}: $${inv.amount.toLocaleString()} COP<br>
+                📅 ${inv.date} | 🔗 ID: ${inv.id}
+              </div>
+            `;
+          });
+        });
+        logHtml += "</div>";
+        document.getElementById("adminTransactionLog").innerHTML =
+          logHtml || '<p style="color: #00aa00">Sin transacciones</p>';
+      }
+
+      // Actualizar panel admin cada 5 segundos
+      setInterval(() => {
+        if (isAdmin) {
+          updateAdminDashboard();
+        }
+      }, 5000);
 
       // Initialize
       updateUI();
