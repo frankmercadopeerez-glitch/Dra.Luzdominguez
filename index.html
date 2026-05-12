@@ -934,73 +934,120 @@
               <select id="paymentMethod" onchange="updatePaymentInfo()">
                 <option value="">Seleccionar...</option>
                 <option value="bold">💳 Bold - Tarjeta Crédito/Débito</option>
-                <option value="bitcoin">₿ Bitcoin</option>
                 <option value="ethereum">Ξ Ethereum</option>
                 <option value="usdt">₮ USDT (Tron)</option>
-                <option value="transfer">🏦 Transferencia Bancaria</option>
               </select>
             </div>
-            
+
             <!-- Información de pago según método seleccionado -->
-            <div id="paymentInfo" style="display: none; background: #0a0a0a; border: 1px solid #008800; padding: 12px; margin: 15px 0; font-size: 11px;">
+            <div
+              id="paymentInfo"
+              style="
+                display: none;
+                background: #0a0a0a;
+                border: 1px solid #008800;
+                padding: 12px;
+                margin: 15px 0;
+                font-size: 11px;
+              "
+            >
               <!-- Bold Payment -->
-              <div id="boldInfo" style="display: none;">
-                <div style="color: #00dd00; margin-bottom: 10px; font-weight: bold;">Pago Seguro con Bold</div>
-                <p style="color: #00aa00; margin-bottom: 10px;">Haz clic en el botón de abajo para procesar tu pago de forma segura con Bold:</p>
-                <button class="cta-button" onclick="openBoldCheckout()" style="width: 100%; background: #001a00;">
+              <div id="boldInfo" style="display: none">
+                <div
+                  style="color: #00dd00; margin-bottom: 10px; font-weight: bold"
+                >
+                  Pago Seguro con Bold
+                </div>
+                <p style="color: #00aa00; margin-bottom: 10px">
+                  Haz clic en el botón de abajo para procesar tu pago de forma
+                  segura con Bold:
+                </p>
+                <button
+                  class="cta-button"
+                  onclick="openBoldCheckout()"
+                  style="width: 100%; background: #001a00"
+                >
                   🔐 PAGAR CON BOLD
                 </button>
-                <p style="color: #008800; font-size: 10px; margin-top: 10px;">Serás redirigido al portal seguro de Bold</p>
+                <p style="color: #008800; font-size: 10px; margin-top: 10px">
+                  Serás redirigido al portal seguro de Bold
+                </p>
               </div>
-              
-              <!-- Bitcoin -->
-              <div id="bitcoinInfo" style="display: none;">
-                <div style="color: #00dd00; margin-bottom: 10px; font-weight: bold;">Transferencia Bitcoin</div>
-                <div style="color: #00aa00; margin-bottom: 8px;">Dirección de Billetera:</div>
-                <div style="background: #000000; padding: 8px; border: 1px solid #00aa00; margin-bottom: 10px; word-break: break-all; font-family: monospace; font-size: 10px; color: #00dd00;">
-                  3J98t1WpEZ73CNmYviecrnyiWrnqRhWNLy
-                </div>
-                <button class="cta-button" onclick="copyToClipboard('3J98t1WpEZ73CNmYviecrnyiWrnqRhWNLy')" style="width: 100%;">
-                  📋 COPIAR DIRECCIÓN
-                </button>
-              </div>
-              
+
               <!-- Ethereum -->
-              <div id="ethereumInfo" style="display: none;">
-                <div style="color: #00dd00; margin-bottom: 10px; font-weight: bold;">Transferencia Ethereum</div>
-                <div style="color: #00aa00; margin-bottom: 8px;">Dirección de Billetera:</div>
-                <div style="background: #000000; padding: 8px; border: 1px solid #00aa00; margin-bottom: 10px; word-break: break-all; font-family: monospace; font-size: 10px; color: #00dd00;">
-                  0x742d35Cc6634C0532925a3b844Bc9e7595f2bEb9
+              <div id="ethereumInfo" style="display: none">
+                <div
+                  style="color: #00dd00; margin-bottom: 10px; font-weight: bold"
+                >
+                  Transferencia Ethereum
                 </div>
-                <button class="cta-button" onclick="copyToClipboard('0x742d35Cc6634C0532925a3b844Bc9e7595f2bEb9')" style="width: 100%;">
+                <div style="color: #00aa00; margin-bottom: 8px">
+                  Dirección de Billetera:
+                </div>
+                <div
+                  style="
+                    background: #000000;
+                    padding: 8px;
+                    border: 1px solid #00aa00;
+                    margin-bottom: 10px;
+                    word-break: break-all;
+                    font-family: monospace;
+                    font-size: 10px;
+                    color: #00dd00;
+                  "
+                >
+                  0x47da989277ee7efe3cfb2f481ba16f8b31483400
+                </div>
+                <button
+                  class="cta-button"
+                  onclick="
+                    copyToClipboard(
+                      '0x47da989277ee7efe3cfb2f481ba16f8b31483400',
+                    )
+                  "
+                  style="width: 100%"
+                >
                   📋 COPIAR DIRECCIÓN
                 </button>
               </div>
-              
+
               <!-- USDT (Tron) -->
-              <div id="usdtInfo" style="display: none;">
-                <div style="color: #00dd00; margin-bottom: 10px; font-weight: bold;">Transferencia USDT (Red Tron)</div>
-                <div style="color: #00aa00; margin-bottom: 8px;">Dirección de Billetera:</div>
-                <div style="background: #000000; padding: 8px; border: 1px solid #00aa00; margin-bottom: 10px; word-break: break-all; font-family: monospace; font-size: 10px; color: #00dd00;">
-                  TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t
+              <div id="usdtInfo" style="display: none">
+                <div
+                  style="color: #00dd00; margin-bottom: 10px; font-weight: bold"
+                >
+                  Transferencia USDT (Red Tron)
                 </div>
-                <button class="cta-button" onclick="copyToClipboard('TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t')" style="width: 100%;">
+                <div style="color: #00aa00; margin-bottom: 8px">
+                  Dirección de Billetera:
+                </div>
+                <div
+                  style="
+                    background: #000000;
+                    padding: 8px;
+                    border: 1px solid #00aa00;
+                    margin-bottom: 10px;
+                    word-break: break-all;
+                    font-family: monospace;
+                    font-size: 10px;
+                    color: #00dd00;
+                  "
+                >
+                  0x47da989277ee7efe3cfb2f481ba16f8b31483400
+                </div>
+                <button
+                  class="cta-button"
+                  onclick="
+                    copyToClipboard('0x47da989277ee7efe3cfb2f481ba16f8b31483400')
+                  "
+                  style="width: 100%"
+                >
                   📋 COPIAR DIRECCIÓN
                 </button>
               </div>
-              
-              <!-- Transferencia Bancaria -->
-              <div id="transferInfo" style="display: none;">
-                <div style="color: #00dd00; margin-bottom: 10px; font-weight: bold;">Datos Bancarios</div>
-                <div style="color: #00aa00; margin-bottom: 5px;">Banco: Banco de Bogotá</div>
-                <div style="color: #00aa00; margin-bottom: 5px;">Tipo Cuenta: Corriente</div>
-                <div style="color: #00aa00; margin-bottom: 5px;">Número: 2561234567</div>
-                <div style="color: #00aa00; margin-bottom: 5px;">Titulario: GreenTrade Pro SAS</div>
-                <div style="color: #00aa00; margin-bottom: 10px;">NIT: 900.123.456-7</div>
-                <p style="color: #008800; font-size: 10px;">Por favor incluye tu email como referencia</p>
-              </div>
+
             </div>
-            
+
             <div id="depositMessage" class="message"></div>
             <button
               class="cta-button"
@@ -1222,27 +1269,21 @@
         const method = document.getElementById("paymentMethod").value;
         const paymentInfo = document.getElementById("paymentInfo");
         const boldInfo = document.getElementById("boldInfo");
-        const bitcoinInfo = document.getElementById("bitcoinInfo");
         const ethereumInfo = document.getElementById("ethereumInfo");
         const usdtInfo = document.getElementById("usdtInfo");
-        const transferInfo = document.getElementById("transferInfo");
 
         // Ocultar todos
         boldInfo.style.display = "none";
-        bitcoinInfo.style.display = "none";
         ethereumInfo.style.display = "none";
         usdtInfo.style.display = "none";
-        transferInfo.style.display = "none";
 
         if (method) {
           paymentInfo.style.display = "block";
 
           // Mostrar el específico
           if (method === "bold") boldInfo.style.display = "block";
-          else if (method === "bitcoin") bitcoinInfo.style.display = "block";
           else if (method === "ethereum") ethereumInfo.style.display = "block";
           else if (method === "usdt") usdtInfo.style.display = "block";
-          else if (method === "transfer") transferInfo.style.display = "block";
         } else {
           paymentInfo.style.display = "none";
         }
@@ -1307,7 +1348,7 @@
           // Determinar icono y nombre del método
           let methodName = "";
           let methodIcon = "";
-          
+
           if (inv.method === "bitcoin") {
             methodIcon = "₿";
             methodName = "Bitcoin";
@@ -1328,7 +1369,8 @@
             methodName = "Tarjeta";
           }
 
-          const statusText = inv.status === "pending_payment" ? " (Pago Pendiente)" : "";
+          const statusText =
+            inv.status === "pending_payment" ? " (Pago Pendiente)" : "";
 
           html += `
                     <div class="portfolio-item">
